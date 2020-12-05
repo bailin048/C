@@ -33,3 +33,8 @@
 
 2020_11_29:
 模拟实现：strcmp;strcpy;strlen;strcat;strstr
+
+2020_11_30:
+一道面试题：https://blog.csdn.net/qq_39208237/article/details/110394716
+
+
