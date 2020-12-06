@@ -1,92 +1,92 @@
 #include <stdio.h>
-
+//sizeof()è®¡ç®—ç±»å‹å¤§å°ï¼Œä¸»è€ƒè¯†åˆ«æ‹¬å·å†…å˜é‡ç±»å‹
 void TestIntArr()
 {
-    int a[] = { 1,2,3,4 };              //4ÔªËØÕûĞÍÊı×é
-    printf("%d\n",sizeof(a));           //Õû¸öÊı×é          16
-    printf("%d\n", sizeof(a + 0));      //a[0]µÄµØÖ·        4
+    int a[] = { 1,2,3,4 };              //4å…ƒç´ æ•´å‹æ•°ç»„
+    printf("%d\n",sizeof(a));           //æ•´ä¸ªæ•°ç»„          16
+    printf("%d\n", sizeof(a + 0));      //a[0]çš„åœ°å€        4
     printf("%d\n", sizeof(*a));         //a[0]              4
-    printf("%d\n", sizeof(a + 1));      //a[1]µÄµØÖ·        4
+    printf("%d\n", sizeof(a + 1));      //a[1]çš„åœ°å€        4
     printf("%d\n", sizeof(a[1]));       //a[1]              4
-    printf("%d\n", sizeof(&a));         //aµÄµØÖ·           4
+    printf("%d\n", sizeof(&a));         //açš„åœ°å€           4
     printf("%d\n", sizeof(*&a));        //a                 16
-    printf("%d\n", sizeof(&a + 1));     //ÓëaÏàÁÚÊı×éµÄµØÖ· 4
-    printf("%d\n", sizeof(&a[0]));      //a[0]µÄµØÖ·        4
-    printf("%d\n", sizeof(&a[0] + 1));  //a[1]µÄµØÖ·        4
+    printf("%d\n", sizeof(&a + 1));     //ä¸aç›¸é‚»æ•°ç»„çš„åœ°å€ 4
+    printf("%d\n", sizeof(&a[0]));      //a[0]çš„åœ°å€        4
+    printf("%d\n", sizeof(&a[0] + 1));  //a[1]çš„åœ°å€        4
 }
 
 void TestCharArr()
 {
-    char arr[] = { 'a','b','c','d','e','f' };  //6ÔªËØ×Ö·ûÊı×é
-    printf("%d\n", sizeof(arr));               //Õû¸öÊı×é               6
-    printf("%d\n", sizeof(arr + 0));           //arr[0]µÄµØÖ·           4
+    char arr[] = { 'a','b','c','d','e','f' };  //6å…ƒç´ å­—ç¬¦æ•°ç»„
+    printf("%d\n", sizeof(arr));               //æ•´ä¸ªæ•°ç»„               6
+    printf("%d\n", sizeof(arr + 0));           //arr[0]çš„åœ°å€           4
     printf("%d\n", sizeof(*arr));              //arr[0]                 1
     printf("%d\n", sizeof(arr[1]));            //arr[1]                 1
-    printf("%d\n", sizeof(&arr));              //arrµÄµØÖ·              4
-    printf("%d\n", sizeof(&arr + 1));          //ÓëarrÏàÁÚÊı×éµÄµØÖ·    4
-    printf("%d\n", sizeof(&arr[0] + 1));       //arr[1]µÄµØÖ·           4
-    //int strlen(char *);strlen´ÓÊäÈëµØÖ·¿ªÊ¼¼ÆÊı£¬Óö0Í£Ö¹
-    //arr[] ÖĞÃ»ÓĞ'\0'   '\0'µÄÕûĞÍ¾ÍÊÇ0
-    printf("%d\n", strlen(arr));         //Õû¸öÊı×é             Ëæ»úÊı>=6
-    printf("%d\n", strlen(arr + 0));     //arr[0]µÄµØÖ·         Ëæ»úÊı>=6
-    printf("%d\n", strlen(*arr));        //arr[0]               error£¬ĞÎ²Îchar*,Êµ²Îchar
-    printf("%d\n", strlen(arr[1]));      //arr[1]               error£¬ĞÎ²Îchar*,Êµ²Îchar
-    printf("%d\n", strlen(&arr));        //arrµÄµØÖ·            Ëæ»úÊı>=6,warning:ĞÎ²Îchar*,Êµ²Îchar*[6]
-    printf("%d\n", strlen(&arr + 1));    //ÓëarrÏàÁÚÊı×éµÄµØÖ·  Ëæ»úÊı(±ÈarrÉÙ6),warning:ĞÎ²Îchar*,Êµ²Îchar*[6] 
-    printf("%d\n", strlen(&arr[0] + 1)); //arr[1]µÄµØÖ·         Ëæ»úÊı>=5(±ÈarrÉÙ1)
+    printf("%d\n", sizeof(&arr));              //arrçš„åœ°å€              4
+    printf("%d\n", sizeof(&arr + 1));          //ä¸arrç›¸é‚»æ•°ç»„çš„åœ°å€    4
+    printf("%d\n", sizeof(&arr[0] + 1));       //arr[1]çš„åœ°å€           4
+    //int strlen(char *);strlenä»è¾“å…¥åœ°å€å¼€å§‹è®¡æ•°ï¼Œé‡0åœæ­¢
+    //arr[] ä¸­æ²¡æœ‰'\0'   '\0'çš„æ•´å‹å°±æ˜¯0
+    printf("%d\n", strlen(arr));         //æ•´ä¸ªæ•°ç»„             éšæœºæ•°>=6
+    printf("%d\n", strlen(arr + 0));     //arr[0]çš„åœ°å€         éšæœºæ•°>=6
+    printf("%d\n", strlen(*arr));        //arr[0]               errorï¼Œå½¢å‚char*,å®å‚char
+    printf("%d\n", strlen(arr[1]));      //arr[1]               errorï¼Œå½¢å‚char*,å®å‚char
+    printf("%d\n", strlen(&arr));        //arrçš„åœ°å€            éšæœºæ•°>=6,warning:å½¢å‚char*,å®å‚char*[6]
+    printf("%d\n", strlen(&arr + 1));    //ä¸arrç›¸é‚»æ•°ç»„çš„åœ°å€  éšæœºæ•°(æ¯”arrå°‘6),warning:å½¢å‚char*,å®å‚char*[6] 
+    printf("%d\n", strlen(&arr[0] + 1)); //arr[1]çš„åœ°å€         éšæœºæ•°>=5(æ¯”arrå°‘1)
 }
 
 void TestStringArr()
 {
-    char arr[] =  "abcdef";    //ÒÔ×Ö·û´®³õÊ¼»¯×Ö·ûÊı×é£¬»á×Ô¶¯Ìí¼Ó'\0'
-    printf("%d\n", sizeof(arr));        //Õû¸öÊı×é            7
-    printf("%d\n", sizeof(arr + 0));    //arr[0]µÄµØÖ·        4
+    char arr[] =  "abcdef";    //ä»¥å­—ç¬¦ä¸²åˆå§‹åŒ–å­—ç¬¦æ•°ç»„ï¼Œä¼šè‡ªåŠ¨æ·»åŠ '\0'
+    printf("%d\n", sizeof(arr));        //æ•´ä¸ªæ•°ç»„            7
+    printf("%d\n", sizeof(arr + 0));    //arr[0]çš„åœ°å€        4
     printf("%d\n", sizeof(*arr));       //arr[0]              1
     printf("%d\n", sizeof(arr[1]));     //arr[1]              1
-    printf("%d\n", sizeof(&arr));       //arrµÄµØÖ·           4 
-    printf("%d\n", sizeof(&arr + 1));   //ÓëarrÏàÁÚÊı×éµÄµØÖ· 4
-    printf("%d\n", sizeof(&arr[0] + 1));//arr[1]µÄµØÖ·        4 
-    //ÓĞ'\0'µÄ´æÔÚ£¬¼´0
-    printf("%d\n", strlen(arr));        //Õû¸öÊı×é            6
-    printf("%d\n", strlen(arr + 0));    //arr[0]µÄµØÖ·        6
+    printf("%d\n", sizeof(&arr));       //arrçš„åœ°å€           4 
+    printf("%d\n", sizeof(&arr + 1));   //ä¸arrç›¸é‚»æ•°ç»„çš„åœ°å€ 4
+    printf("%d\n", sizeof(&arr[0] + 1));//arr[1]çš„åœ°å€        4 
+    //æœ‰'\0'çš„å­˜åœ¨ï¼Œå³0
+    printf("%d\n", strlen(arr));        //æ•´ä¸ªæ•°ç»„            6
+    printf("%d\n", strlen(arr + 0));    //arr[0]çš„åœ°å€        6
     printf("%d\n", strlen(*arr));       //arr[0]              error 
     printf("%d\n", strlen(arr[1]));     //arr[1]              error
-    printf("%d\n", strlen(&arr));       //arrµÄµØÖ·           6£¬warning:ĞÎ²Îchar*£¬Êµ²Îchar*[7]          
-    printf("%d\n", strlen(&arr + 1));   //ÓëarrÏàÁÚÊı×éµÄµØÖ· Ëæ»úÊı£¬warning:ĞÎ²Îchar*£¬Êµ²Îchar*[7]
-    printf("%d\n", strlen(&arr[0] + 1));//arr[1]µÄµØÖ·        5
+    printf("%d\n", strlen(&arr));       //arrçš„åœ°å€           6ï¼Œwarning:å½¢å‚char*ï¼Œå®å‚char*[7]          
+    printf("%d\n", strlen(&arr + 1));   //ä¸arrç›¸é‚»æ•°ç»„çš„åœ°å€ éšæœºæ•°ï¼Œwarning:å½¢å‚char*ï¼Œå®å‚char*[7]
+    printf("%d\n", strlen(&arr[0] + 1));//arr[1]çš„åœ°å€        5
 }
 
 void TestStringPointer()
 {
     char *p = "abcdef";
-    printf("%d\n", sizeof(p));         //'a'µÄµØÖ·    4
-    printf("%d\n", sizeof(p + 1));     //'b'µÄµØÖ·    4  
+    printf("%d\n", sizeof(p));         //'a'çš„åœ°å€    4
+    printf("%d\n", sizeof(p + 1));     //'b'çš„åœ°å€    4  
     printf("%d\n", sizeof(*p));        //'a'          1
     printf("%d\n", sizeof(p[0]));      //'a'          1               
-    printf("%d\n", sizeof(&p));        //¶ş¼¶Ö¸Õë     4
-    printf("%d\n", sizeof(&p + 1));    //¶ş¼¶Ö¸Õë     4
-    printf("%d\n", sizeof(&p[0] + 1)); //'b'µÄµØÖ·    4
-    //×Ö·û´®´ø'\0'
+    printf("%d\n", sizeof(&p));        //äºŒçº§æŒ‡é’ˆ     4
+    printf("%d\n", sizeof(&p + 1));    //äºŒçº§æŒ‡é’ˆ     4
+    printf("%d\n", sizeof(&p[0] + 1)); //'b'çš„åœ°å€    4
+    //å­—ç¬¦ä¸²å¸¦'\0'
     printf("%d\n", strlen(p));           //'a'->        6
     printf("%d\n", strlen(p + 1));       //'b'->        5
-    printf("%d\n", strlen(*p));          //'a'          warning/ÔËĞĞÊ½±¨´í   ĞÎ²Îchar*,Êµ²Îchar
-    printf("%d\n", strlen(p[0]));        //'a'          warning/ÔËĞĞÊ½±¨´í   ĞÎ²Îchar*,Êµ²Îchar
-    printf("%d\n", strlen(&p));          //¶ş¼¶Ö¸Õë     Ëæ»úÊı  warning      ĞÎ²Îchar*,Êµ²Îchar**
-    printf("%d\n", strlen(&p + 1));      //¶ş¼¶Ö¸Õë     Ëæ»úÊı  warning      ĞÎ²Îchar*,Êµ²Îchar**
+    printf("%d\n", strlen(*p));          //'a'          warning/è¿è¡Œå¼æŠ¥é”™   å½¢å‚char*,å®å‚char
+    printf("%d\n", strlen(p[0]));        //'a'          warning/è¿è¡Œå¼æŠ¥é”™   å½¢å‚char*,å®å‚char
+    printf("%d\n", strlen(&p));          //äºŒçº§æŒ‡é’ˆ     éšæœºæ•°  warning      å½¢å‚char*,å®å‚char**
+    printf("%d\n", strlen(&p + 1));      //äºŒçº§æŒ‡é’ˆ     éšæœºæ•°  warning      å½¢å‚char*,å®å‚char**
     printf("%d\n", strlen(&p[0] + 1));   //'b'->        5                 
 }
 //
 void TestInt2Arr()
-{   //aÀïÃæÈı¸öÔªËØ£¬Ã¿¸öÔªËØ¶¼ÊÇÒ»Î¬Êı×é
+{   //aé‡Œé¢ä¸‰ä¸ªå…ƒç´ ï¼Œæ¯ä¸ªå…ƒç´ éƒ½æ˜¯ä¸€ç»´æ•°ç»„
     int a[3][4] = { 0 };
-                                         //ÒâÒå           ´òÓ¡½á¹û      ÀàĞÍ
-    printf("%d\n", sizeof(a));           //Õû¸öÊı×é       48            int*[4]
+                                         //æ„ä¹‰           æ‰“å°ç»“æœ      ç±»å‹
+    printf("%d\n", sizeof(a));           //æ•´ä¸ªæ•°ç»„       48            int*[4]
     printf("%d\n", sizeof(a[0][0]));     //a[0][0]        4             int       
     printf("%d\n", sizeof(a[0]));        //a[0]           16            int*     
     printf("%d\n", sizeof(a[0] + 1));    //a[0][1]        4             int*
-    printf("%d\n", sizeof(a + 1));       //a[1]µÄµØÖ·     4             int*[4]
+    printf("%d\n", sizeof(a + 1));       //a[1]çš„åœ°å€     4             int*[4]
     printf("%d\n", sizeof(*(a + 1)));    //a[1]           16            int*
-    printf("%d\n", sizeof(&a[0] + 1));   //a[1]µÄµØÖ·     4             int*[4]
+    printf("%d\n", sizeof(&a[0] + 1));   //a[1]çš„åœ°å€     4             int*[4]
     printf("%d\n", sizeof(*(&a[0] + 1)));//a[1]           16            int*
     printf("%d\n", sizeof(*a));          //a[0]           16            int*
 }
