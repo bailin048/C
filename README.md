@@ -40,4 +40,7 @@
 2020_12_5:
 模拟实现memcpy;memmove
 
+2020_12_6:
+结构对齐代码：https://blog.csdn.net/qq_39208237/article/details/110760280
+
 
