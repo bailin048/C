@@ -43,4 +43,7 @@
 2020_12_6:
 结构对齐代码：https://blog.csdn.net/qq_39208237/article/details/110760280
 
+2020_12_9:
+模拟实现strncpy;strncmp;找单身狗
+
 
