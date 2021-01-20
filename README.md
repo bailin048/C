@@ -34,6 +34,7 @@
 2020_11_29:
 模拟实现：strcmp;strcpy;strlen;strcat;strstr
 
+2020
 2020_12
 2020_11_30:
 一道面试题：https://blog.csdn.net/qq_39208237/article/details/110394716
@@ -63,3 +64,5 @@
 linux进度条实现(centos7.2)
 
 2021_1_17:数组旋转；数组与数字相加；
+
+2021_1_19：赎金信，回文数判断
