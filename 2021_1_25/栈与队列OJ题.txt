@@ -1,0 +1,480 @@
+1.LeetCode20:[有效的括号]
+char MatesOfBracket(char s)
+{
+	if (s == ')') {
+		return '(';
+	}
+	if (s == ']') {
+		return '[';
+	} 
+	if (s == '}') {
+		return '{';	
+	}
+	return '0';
+}
+bool isValid(char* s) {
+	int n = strlen(s);
+	if (n % 2) {//字符串长为奇数不用判断，无效！
+		return false;
+	}
+	char* stack = (char*)malloc((n + 1) * sizeof(char));//申请动态空间
+	int top = 0;
+	if (stack != NULL) {
+		for (int i = 0; i < n; i++) {
+			if (s[i] == '(' || s[i] == '[' || s[i] == '{') {//入栈
+				stack[++top] = s[i];
+			}
+			else if (stack[top] == MatesOfBracket(s[i])) {//出栈
+				top--;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	return top == 0?true:false;
+}
+2.LeetCode155:[最小栈]
+#define StackElemType int
+typedef struct LinkStackNode
+{
+	StackElemType data;
+	struct LinkStackNode *next;
+}LinkStackNode;
+typedef struct LinkStack
+{
+	LinkStackNode *head;
+}LinkStack;
+
+void LinkStackInit(LinkStack *pst);
+void LinkStackDestroy(LinkStack *pst);
+void LinkStackPush(LinkStack *pst, StackElemType x);
+void LinkStackPop(LinkStack *pst);
+StackElemType LinkStackTop(LinkStack *pst);
+void LinkStackShow(LinkStack *pst);
+bool LinkStackIsEmpty(LinkStack *pst)
+{return pst->head == NULL;}
+
+void LinkStackInit(LinkStack *pst)
+{
+	assert(pst);
+	pst->head = NULL;
+}
+
+void LinkStackPush(LinkStack *pst, StackElemType x)
+{
+	assert(pst);
+	LinkStackNode *s = (LinkStackNode*)malloc(sizeof(LinkStackNode));
+	assert(s != NULL);
+	s->data = x;
+
+	s->next = pst->head;
+	pst->head = s;
+}
+
+void LinkStackPop(LinkStack *pst)
+{
+	assert(pst);
+	if(pst->head != NULL)
+	{
+		LinkStackNode *p = pst->head;
+		pst->head = p->next;
+		free(p);
+	}
+}
+
+StackElemType LinkStackTop(LinkStack *pst)
+{
+	assert(pst && pst->head != NULL);
+	return pst->head->data;
+}
+void LinkStackShow(LinkStack *pst)
+{
+	assert(pst);
+	LinkStackNode *p = pst->head;
+	while(p != NULL)
+	{
+		printf("%d\n", p->data);
+		p = p->next;
+	}
+}
+
+void LinkStackDestroy(LinkStack *pst)
+{
+	assert(pst);
+	while(pst->head != NULL)
+	{
+		LinkStackNode *p = pst->head;
+		pst->head = p->next;
+		free(p);
+	}
+}
+
+typedef struct {
+    LinkStack stack;
+    LinkStack min_stack;
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() {
+    MinStack*p = (MinStack*)malloc(sizeof(MinStack));
+    LinkStackInit(&(p->stack));
+    LinkStackInit(&(p->min_stack));
+    return p;
+}
+
+void minStackPush(MinStack* obj, int x) {
+    LinkStackPush(&(obj->stack),x);
+    if(LinkStackIsEmpty(&(obj->min_stack))||x<=LinkStackTop(&(obj->min_stack)))
+        LinkStackPush(&(obj->min_stack),x);
+}
+
+void minStackPop(MinStack* obj) {
+    if(LinkStackTop(&(obj->stack))==LinkStackTop(&(obj->min_stack)))
+        LinkStackPop(&(obj->min_stack));
+    LinkStackPop(&(obj->stack));
+}
+
+int minStackTop(MinStack* obj) {
+    return LinkStackTop(&(obj->stack));
+}
+
+int minStackGetMin(MinStack* obj) {
+    return LinkStackTop(&(obj->min_stack));
+}
+
+void minStackFree(MinStack* obj) {
+    LinkStackDestroy(&(obj->stack));
+    LinkStackDestroy(&(obj->min_stack));
+    obj=NULL;
+    obj=NULL;
+}
+3.LeetCode232:[用栈实现队列]
+#define StackElemType int
+typedef struct LinkStackNode
+{
+	StackElemType data;
+	struct LinkStackNode *next;
+}LinkStackNode;
+typedef struct LinkStack
+{
+	LinkStackNode *head;
+}LinkStack;
+
+void LinkStackInit(LinkStack *pst);
+void LinkStackDestroy(LinkStack *pst);
+void LinkStackPush(LinkStack *pst, StackElemType x);
+void LinkStackPop(LinkStack *pst);
+StackElemType LinkStackTop(LinkStack *pst);
+bool LinkStackIsEmpty(LinkStack *pst)
+{return pst->head == NULL;}
+
+void LinkStackInit(LinkStack *pst)
+{
+	assert(pst);
+	pst->head = NULL;
+}
+
+void LinkStackPush(LinkStack *pst, StackElemType x)
+{
+	assert(pst);
+	LinkStackNode *s = (LinkStackNode*)malloc(sizeof(LinkStackNode));
+	assert(s != NULL);
+	s->data = x;
+
+	s->next = pst->head;
+	pst->head = s;
+}
+
+void LinkStackPop(LinkStack *pst)
+{
+	assert(pst);
+	if(pst->head != NULL)
+	{
+		LinkStackNode *p = pst->head;
+		pst->head = p->next;
+		free(p);
+	}
+}
+
+StackElemType LinkStackTop(LinkStack *pst)
+{
+	assert(pst && pst->head != NULL);
+	return pst->head->data;
+}
+
+void LinkStackDestroy(LinkStack *pst)
+{
+	assert(pst);
+	while(pst->head != NULL)
+	{
+		LinkStackNode *p = pst->head;
+		pst->head = p->next;
+		free(p);
+	}
+}
+typedef struct {
+    LinkStack s1;
+    LinkStack s2;
+} MyQueue;
+
+/** Initialize your data structure here. */
+
+MyQueue* myQueueCreate() {
+    MyQueue* p =(MyQueue*)malloc(sizeof(MyQueue));
+    LinkStackInit(&(p->s1));
+    LinkStackInit(&(p->s2));
+    return p;
+}
+
+/** Push element x to the back of queue. */
+void myQueuePush(MyQueue* obj, int x) {
+    LinkStackPush(&(obj->s1),x);
+}
+
+/** Removes the element from in front of queue and returns that element. */
+int myQueuePop(MyQueue* obj) {
+    if(LinkStackIsEmpty(&(obj->s2))){
+         while(!LinkStackIsEmpty(&(obj->s1))){
+            LinkStackPush(&(obj->s2),LinkStackTop(&(obj->s1)));
+            LinkStackPop(&(obj->s1));
+        }
+    }
+    int val = LinkStackTop(&(obj->s2));
+    LinkStackPop(&(obj->s2));
+    return val;
+}
+
+/** Get the front element. */
+int myQueuePeek(MyQueue* obj) {
+    if(LinkStackIsEmpty(&(obj->s2))){
+        while(!LinkStackIsEmpty(&(obj->s1))){
+            LinkStackPush(&(obj->s2), LinkStackTop(&(obj->s1)));
+            LinkStackPop(&(obj->s1));
+        }
+    }
+    int val = LinkStackTop(&(obj->s2));
+    return val;
+}
+
+/** Returns whether the queue is empty. */
+bool myQueueEmpty(MyQueue* obj) {
+    return LinkStackIsEmpty(&(obj->s1))&&LinkStackIsEmpty(&(obj->s2));
+}
+
+void myQueueFree(MyQueue* obj) {
+    LinkStackDestroy(&(obj->s1));
+    LinkStackDestroy(&(obj->s2));
+    free(obj);
+    obj = NULL;
+}
+4.LeetCode225:[用队列实现栈]
+#define QDataType int 
+
+////////单向链表队列///////////
+typedef struct QListNode
+{
+	struct QListNode* _next;
+	QDataType _data;
+}QNode;
+
+typedef struct Queue
+{
+	QNode* _front;
+	QNode* _rear;
+}Queue;
+
+void QueueInit(Queue* q);
+void QueuePush(Queue* q, QDataType data);
+void QueuePop(Queue* q);
+QDataType QueueFront(Queue* q);
+int QueueEmpty(Queue* q);
+void QueueDestroy(Queue* q);
+static QNode* BuyNode(QDataType x);
+
+static QNode* BuyNode(QDataType x)
+{
+	QNode* p = (QNode*)malloc(sizeof(QNode));
+	p->_data = x;
+	p->_next = NULL;
+	return p;
+}
+void QueueInit(Queue* q)
+{
+	if (q) {
+		q->_front = NULL;
+		q->_rear = NULL;
+	}
+}
+void QueuePush(Queue* q, QDataType data)
+{
+	if (!q) {
+		return;
+	}
+	else {
+		QNode* s = BuyNode(data);
+		if (QueueEmpty(q))
+			q->_front = q->_rear = s;
+		else {
+			q->_rear->_next = s;
+			q->_rear = s;
+		}
+	}
+}
+void QueuePop(Queue* q)
+{
+	if (q) {
+		if (q->_front)
+		{
+			QNode* p = q->_front;
+			q->_front = q->_front->_next;
+			free(p);
+			p = NULL;
+		}
+	}
+}
+QDataType QueueFront(Queue* q)
+{
+	assert(q);
+    if(q->_front)
+		return q->_front->_data;
+    return NULL;
+}
+int QueueEmpty(Queue* q)
+{
+	if (q)
+		return !q->_front;
+    return 1;
+}
+void QueueDestroy(Queue* q)
+{
+	if (q) {
+		QNode* p = q->_front;
+		QNode* pre = p;
+		while (pre) {
+			p = p->_next;
+			free(pre);
+			pre = p;
+		}
+		q->_front = q->_rear = NULL;
+	}
+}
+typedef struct {
+    Queue q1;
+    Queue q2;
+} MyStack;
+
+/** Initialize your data structure here. */
+
+MyStack* myStackCreate() {
+    MyStack *p = (MyStack*)malloc(sizeof(MyStack));
+    QueueInit(&(p->q1));
+    QueueInit(&(p->q2));
+    return p;
+}
+
+/** Push element x onto stack. */
+void myStackPush(MyStack* obj, int x) {
+    Queue* nonempty = QueueEmpty(&(obj->q1))?&(obj->q2):&(obj->q1);
+    QueuePush(nonempty,x);
+}
+
+/** Removes the element on top of the stack and returns that element. */
+int myStackPop(MyStack* obj) {
+    Queue* nonempty = QueueEmpty(&(obj->q1))?&(obj->q2):&(obj->q1);
+    Queue* empty = QueueEmpty(&(obj->q1))?&(obj->q1):&(obj->q2);
+    while(nonempty->_rear!=nonempty->_front){
+        int val = QueueFront(nonempty);
+        QueuePop(nonempty);
+        QueuePush(empty,val);
+    }
+    int val = nonempty->_rear->_data;
+    QueuePop(nonempty);
+    return val;
+}
+
+/** Get the top element. */
+int myStackTop(MyStack* obj) {
+    Queue* nonempty = QueueEmpty(&(obj->q1))?&(obj->q2):&(obj->q1);
+    Queue* empty = QueueEmpty(&(obj->q1))?&(obj->q1):&(obj->q2);
+    int top = 0;
+    while(nonempty->_front){
+        if(nonempty->_front==nonempty->_rear)
+            top = nonempty->_rear->_data;
+        int val = QueueFront(nonempty);
+        QueuePop(nonempty);
+        QueuePush(empty,val);
+    }
+    return top;
+}
+
+/** Returns whether the stack is empty. */
+bool myStackEmpty(MyStack* obj) {
+    bool flag=QueueEmpty(&(obj->q1))&&QueueEmpty(&(obj->q2))?true:false;
+    return flag;
+}
+
+void myStackFree(MyStack* obj) {
+    QueueDestroy(&(obj->q1));
+    QueueDestroy(&(obj->q2));
+    obj = NULL;
+}
+6.LeetCode622:[循环队列]
+typedef struct {
+    int *base;
+   int front;
+    int rear;
+    int capacity;
+} MyCircularQueue;
+
+bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
+    return obj->front == obj->rear;
+}
+
+MyCircularQueue* myCircularQueueCreate(int k) {
+    MyCircularQueue *p = (MyCircularQueue*)malloc(sizeof(MyCircularQueue));
+    p->capacity = k;
+    p->front = p->rear = 0;
+    p->base = (int *)malloc(sizeof(int)*(k+1));
+    return p;
+}
+
+bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
+    if(obj->front == (obj->rear+1)%(obj->capacity+1))
+        return false;
+    obj->base[obj->rear] = value;
+    obj->rear = (obj->rear+1)%(obj->capacity+1);
+    return true;
+}
+
+bool myCircularQueueDeQueue(MyCircularQueue* obj) {
+    if(obj->front==obj->rear)
+        return false;
+    obj->front = (obj->front+1)%(obj->capacity+1);
+    return true;
+}
+
+int myCircularQueueFront(MyCircularQueue* obj) {
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
+    return obj->base[obj->front];
+}
+
+int myCircularQueueRear(MyCircularQueue* obj) {
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
+    return obj->base[(obj->rear-1+obj->capacity+1)%(obj->capacity+1)];
+
+}
+
+
+bool myCircularQueueIsFull(MyCircularQueue* obj) {
+    return obj->front == (obj->rear+1)%(obj->capacity+1);
+}
+
+void myCircularQueueFree(MyCircularQueue* obj) {
+    free(obj->base);
+    obj = NULL;
+    free(obj);
+}
