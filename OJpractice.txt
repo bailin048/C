@@ -1,0 +1,317 @@
+LeetCode【1】:https://leetcode-cn.com/problems/two-sum/
+int* twoSum(int* nums, int numsSize, int target, int* returnSize){
+    int left = 0;
+    int right = 0;
+    *returnSize = 2;
+    int *res = (int *)malloc(sizeof(int)*2);
+    for(left = 0;left<numsSize-1;left++){
+        for(right=left+1;right<numsSize;right++){
+           if(target - nums[left] == nums[right] )
+           {
+               res[0] = left,res[1] = right;
+               return res; 
+           }
+        }
+    }
+    return res;
+}
+
+LeetCode【27】：https://leetcode-cn.com/problems/remove-element/
+int removeElement(int* nums, int numsSize, int val){
+    int k = 0,i;
+	for (i = 0; i < numsSize; i++) {
+		if (nums[i] != val) { //不等的数字覆盖
+			nums[k++] = nums[i];
+		}
+	}
+	return k;
+}
+
+LeetCode【709】:https://leetcode-cn.com/problems/to-lower-case/
+char * toLowerCase(char * str){
+    int len = strlen(str);      
+    char* dst = (char*)malloc(len + 1);
+    char* st = dst;   //保存起始位置
+    if (NULL != dst) {
+        memset(dst, '\0', len + 1); 
+        while (*str) {
+            if ((*str >= 'A') && (*str <= 'Z')) {  //只将大写转小写
+                *dst = *str + 32;
+            }
+            else {
+                *dst = *str;
+            }
+            str++;
+            dst++;
+        }
+    }
+    return st;
+}
+
+LeetCode【189】:https://leetcode-cn.com/problems/rotate-array/
+void Reverse(int* nums, int start, int end)
+{
+    while (start < end) {
+        int tmp = nums[end];
+        nums[end] = nums[start];
+        nums[start] = tmp;
+        end--, start++;
+    }
+}
+void rotate(int* nums, int numsSize, int k){
+    k %= numsSize;
+    Reverse(nums, 0, numsSize - 1);
+    Reverse(nums, 0, k - 1);
+    Reverse(nums, k, numsSize - 1);
+}
+
+LeetCode【35】:https://leetcode-cn.com/problems/search-insert-position/
+int searchInsert(int* nums, int numsSize, int target){
+    int left = 0;
+	int right = numsSize - 1;
+	int mid, flag;
+	while (left <= right) {
+		mid = (left + right) / 2;
+		if (nums[mid] > target) {
+			right = mid - 1;
+			flag = 0; //说明:最后一次right减小引发的循环条件不满足,此时target>nums[right]
+		}
+		else if (nums[mid] < target) {
+			left = mid + 1;
+			flag = 1;//说明:最后一次left增大引起的循环条件不满足,此时target<nums[left]
+		}
+		else {
+			return mid;//target存在与nums中且被找到
+		}
+	}
+	return  flag == 0 ? right + 1 : left; //target比nums[left-1]大，但比nums[left]小，所以插的位置就是left
+}
+
+LeetCode【383】:https://leetcode-cn.com/problems/ransom-note/
+bool canConstruct(char* ransomNote, char* magazine) {
+    int num1[26] = {0};
+    int num2[26] = {0};
+    int k1 = strlen(ransomNote);
+    int k2 = strlen(magazine);
+    for(int i=0;i<k1;i++){
+        num1[ransomNote[i]-'a']++;
+    }
+    for(int i=0;i<k2;i++){
+        num2[magazine[i]-'a']++;
+    }
+    for(int i = 0;i<26;i++){
+        if(num1[i]>num2[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+LeetCode【9】:https://leetcode-cn.com/problems/palindrome-number/
+int LenofNum(int x)
+{
+    int cnt = 1;
+    while (x /= 10) {
+        cnt++;
+    }
+    return cnt;
+}
+int isPalindrome(int x) {
+    if (x < 0 || (x % 10 == 0 && x != 0)) { //负数及个位为0的非0数必不是回文数
+        return false;
+    }
+    int k = LenofNum(x);
+    for (int i = 0; i < k / 2; i++) {//计算一半就行
+        int h = x / (int)pow(10, k - i - 1) % 10;  //获取高位数字
+        int l = x / (int)pow(10, i) % 10;//获取低位数字
+            if (h != l) {
+                return false;
+            }
+    }
+    return true;
+}
+
+LeetCode【58】:https://leetcode-cn.com/problems/length-of-last-word/
+int lengthOfLastWord(char * s){
+   int len = strlen(s), lastWordLen = 0;
+    if (len == 0) return 0;
+
+    for (int i = len - 1; i >= 0; i--) {
+        if (s[i] != ' ') lastWordLen++;
+        if (s[i] == ' ' && lastWordLen > 0) break;
+    }
+
+    return lastWordLen;
+}
+
+LeetCode【88】:https://leetcode-cn.com/problems/merge-sorted-array/
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+    m--;
+    n--; 
+    for (int t = nums1Size - 1; t >= 0 && n >= 0 ; t--) {
+        if (m < 0) { 
+            nums1[t] = nums2[n--];
+        }
+        else{
+            nums1[t] = nums2[n] > nums1[m] ? nums2[n--] : nums1[m--];
+        }
+    }
+}
+
+LeetCode【217】:https://leetcode-cn.com/problems/contains-duplicate/
+int Cmp(const void* a,const void* b)
+{
+    return *(int*)a-*(int*)b;
+}
+bool containsDuplicate(int* nums, int numsSize){
+    if(numsSize<=1)
+        return false;
+    else{
+        qsort(nums,numsSize,sizeof(int),Cmp);
+        for(int i = 0;i<numsSize-1;i++){
+            if(nums[i]==nums[i+1])
+            return true;
+        }
+    }
+    return false;
+}
+
+LeetCode【925】:https://leetcode-cn.com/problems/long-pressed-name/
+bool isLongPressedName(char * name, char * typed){
+    int n = strlen(name);
+    int m = strlen(typed);
+    int i=0,j=0;
+     while (j < m) {
+        if (i < n && name[i] == typed[j]) {//一样则同时后移
+            i++;
+            j++;
+        } else if (j > 0 && typed[j] == typed[j - 1]) {//不一样，但属于长按导致1
+            j++;
+        } else {//不对
+            return false;
+        }
+    }
+    return i == n;
+}
+
+LeetCode【977】:https://leetcode-cn.com/problems/squares-of-a-sorted-array/
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* sortedSquares(int* nums, int numsSize, int* returnSize){
+    int* p =(int*)malloc(sizeof(int)*numsSize);
+    int end = numsSize - 1;
+    int start = 0;
+    int i = end;
+    while(start<=end){
+        if(abs(nums[start])>=abs(nums[end]))
+            p[i--] = pow(nums[start++],2);
+        else
+            p[i--] = pow(nums[end--],2);
+    }
+    *returnSize = numsSize;
+    return p;
+}
+
+LeetCode【917】:https://leetcode-cn.com/problems/reverse-only-letters/
+char * reverseOnlyLetters(char * S){
+        int len = strlen(S);
+    if (len <= 1)
+        return S;
+    char* str = (char*)malloc(len + 1);
+    str[len] = '\0';
+    char* stack = (char*)malloc(len + 1);
+    int top = 0;
+    int i = 0;
+    while (i < len) {
+        if (isalpha(S[i])) {
+            stack[top++] = S[i];
+        }
+        i++;
+    }
+    i = 0;
+    while (i < len) 
+        str[i++] = isalpha(S[i]) ? stack[--top] : S[i];
+    return str;
+}
+
+LeetCode【905】:https://leetcode-cn.com/problems/sort-array-by-parity/
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* sortArrayByParity(int* A, int ASize, int* returnSize) {
+    int left = 0;
+    int right = ASize - 1;
+    while (left <= right) {
+        while (left<=right && !(A[left] % 2))
+            left++;
+        while (left<=right && A[right] % 2)
+            right--;
+        if (left <= right) {
+            int tmp = A[left];
+            A[left] = A[right];
+            A[right] = tmp;
+        }
+    }
+    *returnSize = ASize;
+    return A;
+}
+LeetCode【724】:https://leetcode-cn.com/problems/find-pivot-index/
+int pivotIndex(int* nums, int numsSize) {
+    int sum = 0;
+    int sumleft = 0;
+    for (int i = 0; i < numsSize; i++) 
+        sum += nums[i];
+    for(int i = 0;i<numsSize;i++){
+        if(2*sumleft+nums[i]==sum)
+            return i;
+        sumleft+=nums[i];
+    }
+    return -1;
+}
+
+LeetCode【66】:https://leetcode-cn.com/problems/plus-one/
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* plusOne(int* digits, int digitsSize, int* returnSize){
+    int * res = (int *)malloc(sizeof(int)*(digitsSize+1));
+    int flag = 0;
+    res[0] = 0;
+    for(int i = digitsSize - 1;i>=0;i--){
+        if(i==digitsSize - 1)
+            res[i+1] = digits[i] + 1;
+        else
+            res[i+1] = digits[i]+flag;
+        res[i+1]>9?(res[i+1]%=10,flag = 1):(res[i+1],flag=0);
+    }
+    res[0]+=flag;
+    *returnSize = res[0]==0?digitsSize:digitsSize+1;
+    return res[0]==0?res+1:res;
+}
+
+LeetCode【414】:https://leetcode-cn.com/problems/third-maximum-number/
+int thirdMax(int* nums, int numsSize){
+    if(1 == numsSize)
+        return nums[0];
+    else if(2 == numsSize)
+        return nums[0]>nums[1]?nums[0]:nums[1];
+    else{
+        long first = LONG_MIN,second = LONG_MIN,third = LONG_MIN;
+        for(int i = 0;i<numsSize;i++){
+            if(nums[i]==third||nums[i]==second||nums[i]==first)
+                continue;
+            if(nums[i]>first){
+                third = second;
+                second = first;
+                first = nums[i];
+            }else if(nums[i]>second&&nums[i]<first){
+                third = second;
+                second = nums[i];
+            }else if(nums[i]>third&&nums[i]<second)
+                third = nums[i];
+        }     
+        return third==LONG_MIN?first:third;
+    }
+}
+
