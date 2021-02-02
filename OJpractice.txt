@@ -315,3 +315,108 @@ int thirdMax(int* nums, int numsSize){
     }
 }
 
+LeetCode【8】【字符串转数字】：https://leetcode-cn.com/problems/string-to-integer-atoi/
+int myAtoi(char * s){
+	char *ptr = s;
+    int flag = 1;
+    long int res = 0;
+    while((*ptr) == ' ')
+        ptr++;
+    if(*ptr == '-'){
+        flag = -1;
+        ptr++;
+    }else if(*ptr == '+'){
+        flag = 1;
+        ptr++;
+    }
+    while(isdigit(*ptr)){
+        res=(res*10+*ptr-'0');
+        if((int)res != res)
+            break;
+        ptr++;
+    }
+    if(isdigit(*ptr))
+        if(flag == -1)
+            return INT_MIN;
+        else
+            return INT_MAX;
+    return res*flag;
+}
+
+LeetCode【34】【寻找目标数字的索引】：https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+int* searchRange(int* nums, int numsSize, int target, int* returnSize){
+    *returnSize = 2;
+    int* res =(int*)malloc(sizeof(int)*2);
+    res[0]=res[1]=-1;
+    int left = 0,right = numsSize - 1;
+    while(left<=right){//先找到target
+        int mid = (left+right)>>1;
+        if(nums[mid]>target)
+            right = mid - 1;
+        else if(nums[mid]<target)
+            left = mid + 1;
+        else{
+            left = right = mid;//向两边找
+            while(left - 1>=0 && !(nums[left-1]^target))
+                left--;
+             while(right + 1<=numsSize - 1 && !(nums[right+1]^target))
+                right++;
+            res[0] = left,res[1] = right;
+            break;
+        }
+    }
+    return res;
+}
+
+LeetCode【125】【验证回文字符串】:https://leetcode-cn.com/problems/valid-palindrome/
+bool isPalindrome(char * s){
+    int n = strlen(s);
+    int left = 0;
+    int right = n-1;
+    while(left<=right){
+        if(!isalnum(s[left])){
+            left++;
+            continue;
+        }
+        while(!isalnum(s[right])){
+            right--;
+            continue;
+        }
+        if(tolower(s[left]) != tolower(s[right]))
+            return false;
+        left++,right--;
+    }
+    return true;
+}
+
+LeetCode【443】【压缩字符串】：https://leetcode-cn.com/problems/string-compression/
+static int _len(int k)
+{
+    int cnt = 1;
+    while(k/=10)
+        cnt++;
+    return cnt;
+}
+int compress(char* chars, int charsSize){
+    if(charsSize<2)//不需要压缩
+        return charsSize;
+    int follow = 0;
+    int pre = 0;
+    int t = 0;
+    while(pre<charsSize){
+        while(pre<charsSize&&chars[follow]==chars[pre])//出此循环说明pre已到下一个字符
+            pre++;
+        chars[t] = chars[follow];//将字符填入
+        t++;
+        int k = pre - follow;//计算与chars[follow]相同字符的数目
+        int nums = _len(k);//获取k的位数
+        while(k>1&&nums)//只有个数大于1才能填入计数
+            chars[t++] = k/(int)pow(10,--nums)%10+'0';//分数位填入
+        if(pre<charsSize)//字符数组未遍历完
+            follow = pre;
+        else //遍历完
+            break;
+    }
+    return t;
+}
+
