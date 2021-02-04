@@ -419,4 +419,31 @@ int compress(char* chars, int charsSize){
     }
     return t;
 }
+LeetCode【150】【根据逆波兰表示法，求表达式的值】：https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/
+int evalRPN(char ** tokens, int tokensSize){
+    int* stack = (int*)malloc(tokensSize*sizeof(int));
+    int top = -1;
+    int n1 = 0,n2 = 0;
+    for(int i = 0;i<tokensSize;i++){
+        if(!strcmp(tokens[i],"+")){
+            n1 = stack[top--],n2 = stack[top--];
+            stack[++top] = n1 + n2; 
+        }
+        else if(!strcmp(tokens[i],"*")){
+            n1 = stack[top--],n2 = stack[top--];
+            stack[++top] = n1 * n2; 
+        }    
+        else if(!strcmp(tokens[i],"-")){
+            n1 = stack[top--],n2 = stack[top--];
+            stack[++top] = n2 - n1; 
+        }     
+        else if(!strcmp(tokens[i],"/")){
+             n1 = stack[top--],n2 = stack[top--];
+             stack[++top] = n2 / n1; 
+        }
+        else
+            stack[++top] = atoi(tokens[i]);//字符转数字
+    }
+    return stack[top];
+}
 
