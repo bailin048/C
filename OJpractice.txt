@@ -447,3 +447,30 @@ int evalRPN(char ** tokens, int tokensSize){
     return stack[top];
 }
 
+LeetCode【38】【外观数列】：https://leetcode-cn.com/problems/count-and-say/
+char * countAndSay(int n){
+    int size = 10000;
+    char* strold = (char*)malloc(size);
+    char* strnew = (char*)malloc(size);
+    memset(strold,'\0',size),memset(strnew,'\0',size);
+    strold[0] = '1';
+    int cnt = 0;
+    int k = 0;
+    char *ptr = strold;
+    while(--n){
+        while(*ptr){
+            cnt = 0;
+            char key = *ptr;
+            while(*ptr && *ptr == key)
+                cnt++,ptr++;
+            strnew[k++] = cnt + '0';
+            strnew[k++] = key;
+        }
+        memcpy(strold,strnew,strlen(strnew));
+        memset(strnew,'\0',strlen(strnew));
+        ptr = strold;
+        k = 0;
+    }
+    return strold;
+}
+
