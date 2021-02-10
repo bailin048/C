@@ -474,3 +474,114 @@ char * countAndSay(int n){
     return strold;
 }
 
+【剑指Offer21】【调整数组顺序使奇数位于偶数之前】：https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/
+int* exchange(int* nums, int numsSize, int* returnSize){
+    int left = 0,right = numsSize - 1;
+    *returnSize = numsSize;
+    while(left < right){
+        while(left < right && nums[left]%2)
+            left++;
+        while(right>left && !(nums[right]%2))
+            right--;
+        int tmp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = tmp;
+    }
+    return nums;
+}
+
+LeetCode【167】【两数之和】：https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/
+int* twoSum(int* numbers, int numbersSize, int target, int* returnSize){
+    *returnSize = 2;
+    int* res = (int*)malloc(2*sizeof(int));
+    res[0]=-1,res[1]=-1;
+    int left = 0,right = numbersSize - 1;
+    while(left<right){
+        if(numbers[left]+numbers[right]>target)
+            right--;
+        else if(numbers[left]+numbers[right]<target)
+            left++;
+        else{
+            res[0]=left+1,res[1]=right+1;
+            break;
+        }
+    }
+    return res;
+}
+
+LeetCode【168】【Excel表列名称】：https://leetcode-cn.com/problems/excel-sheet-column-title/
+char * convertToTitle(int n){
+    int size = 10000;
+    char* res = (char*)malloc(size);
+    int i = 0;
+    memset(res,'\0',size);
+    while(n){
+        n-=1;
+        int c = n%26;
+        res[i++] = c  + 'A';
+        n/=26;
+    } 
+    int len = strlen(res);
+    int half = len/2;
+    i = 0;
+    while(i<half){
+        char tmp = res[len - i - 1];
+        res[len - i - 1] = res[i];
+        res[i] = tmp;
+        i++;
+    }
+    return res;
+}
+
+LeetCode【171】【Excel表列序号】：https://leetcode-cn.com/problems/excel-sheet-column-number/
+int titleToNumber(char * s){
+    int res = 0;
+    int len = strlen(s);
+    int i = len - 1;
+    while(i > -1){
+        res += (int)(*s - 64)*(int)pow(26,i);
+        s++;
+        i--;
+    }
+    return res;
+}
+
+LeetCode【112】【路径总和】：https://leetcode-cn.com/problems/path-sum/
+bool IsEuqal(struct TreeNode* root,int target,int sum){
+    if(NULL == root)
+        return false;
+    sum += root->val;
+    if(sum == target && root->left == NULL && root->right == NULL)
+        return true;
+    return IsEuqal(root->left,target,sum) || IsEuqal(root->right,target,sum);
+}
+bool hasPathSum(struct TreeNode* root, int targetSum){
+    int sum = 0;
+    return IsEuqal(root,targetSum,0);
+}
+
+LeetCode【121】【买卖股票的最佳时机I】：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+int maxProfit(int* prices, int pricesSize){
+    if(1 == pricesSize)
+        return 0;
+    int buy = 0;
+    int profit =0;
+    int i = 0;
+    while(i < pricesSize){
+        buy = prices[i]<prices[buy]?i:buy;
+        profit = profit>(prices[i]-prices[buy])?profit:prices[i]-prices[buy];
+        i++;
+    }
+    return profit;
+}
+
+LeetCode【122】【买卖股票的最佳时机II】
+int maxProfit(int* prices, int pricesSize){
+    if(1 == pricesSize)
+        return 0;
+    int profit = 0;
+    for(int i = 1;i<pricesSize;i++){
+        profit += fmax(0,prices[i]-prices[i-1]);
+    }
+    return profit;
+}
