@@ -585,3 +585,18 @@ int maxProfit(int* prices, int pricesSize){
     }
     return profit;
 }
+
+LeetCode【258】【各位相加】：https://leetcode-cn.com/problems/add-digits/
+int addDigits(int num){
+    if(num < 10)
+        return num;
+    else{
+        int res = 0;
+        while(num){
+            res += (num%10);
+            num/=10;
+        }
+        num = addDigits(res);
+        return num; 
+    }
+}
