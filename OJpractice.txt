@@ -667,5 +667,80 @@ bool isSubStructure(struct TreeNode* A, struct TreeNode* B){
     return isSubStructure(A->left,B) || isSubStructure(A->right,B);
 }
 
+【剑指offer22】【链表中倒数第K个节点】：https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
+【方法1】
+int LenofList(struct ListNode* head){
+    int n = 0;
+    while(head){
+        head = head->next;
+        n++;
+    }
+    return n;
+}
+struct ListNode* getKthFromEnd(struct ListNode* head, int k){
+    int len = LenofList(head);
+    if(k > len)
+        return NULL;
+    while(len != k){
+        head = head->next;
+        len--;
+    }
+    return head;
+}
+【方法2】：双指针
+struct ListNode* getKthFromEnd(struct ListNode* head, int k){
+    struct ListNode* pre = head;
+    while(k && pre != NULL){
+        pre = pre->next;
+        k--;
+    }
+    while(pre != NULL){
+        pre = pre->next;
+        head = head->next;
+    }
+    return k==0?head:pre;
+}
 
+【LCP01】【猜数字】：https://leetcode-cn.com/problems/guess-numbers/
+int game(int* guess, int guessSize, int* answer, int answerSize){
+    int cnt = 0;
+    for(int i = 0;i<guessSize;i++)
+       cnt += (guess[i]==answer[i]?1:0);
+    return cnt;
+}
+
+【LCP18】【早餐组合】：https://leetcode-cn.com/problems/2vYnGI/
+void ShellInsert(int *a,int dk,int size){
+    for(int i = dk;i < size;i++){
+        int temp = a[i];
+        int j = 0;
+        for(j = i - dk;j >= 0 && temp < a[j];j-=dk)
+            if(temp < a[j])
+                a[j+dk] = a[j];
+        a[j+dk] = temp;
+    }
+}
+void Sort(int* a,int size){
+    int dk = size;
+    while(dk/=2)
+        ShellInsert(a,dk,size);
+}
+int breakfastNumber(int* staple, int stapleSize, int* drinks, int drinksSize, int x){
+   Sort(drinks,drinksSize);
+   int cnt = 0;
+   for(int i = 0;i < stapleSize; i++){
+        int left = 0,right = drinksSize - 1,mid = 0;
+        while(left <= right){
+            mid = (left+right)>>1;
+            int tmp = staple[i]+drinks[mid];
+            if(tmp>x)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        cnt += left;
+        cnt %= 1000000007; 
+   }
+   return cnt;
+}
 
