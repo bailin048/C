@@ -600,3 +600,70 @@ int addDigits(int num){
         return num; 
     }
 }
+
+【剑指Offer58-II】【左旋转字符串】：https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/
+char* reverseLeftWords(char* s, int n){
+    int len = strlen(s);
+    char* res = (char*)malloc(len + 1);
+    char* p = res;
+    memset(res,'\0',len + 1);
+    n = n % len;
+    char* tmp = s + n;
+    strcpy(p,tmp);
+    while(*p)
+        p++;
+    while(n--){
+        *p = *s;
+        s++,p++;
+    }
+    return res;
+}
+
+【剑指Offer28】【对称的二叉树】：https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/
+bool _Issymmetric(struct TreeNode* p,struct TreeNode* q)
+{
+    if(NULL == p && NULL == q)
+        return true;
+    if(NULL == p || NULL == q)
+        return false;
+    return (p->val == q->val) && _Issymmetric(p->left,q->right) && _Issymmetric(p->right,q->left);
+}
+bool isSymmetric(struct TreeNode* root){
+    if(NULL == root)
+        return true;
+    return _Issymmetric(root->left,root->right);
+}
+
+【剑指Offer52】【两个链表的第一个公共节点】：https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    struct ListNode* A = headA;
+    struct ListNode* B = headB;
+    while(A != B){
+        if(A == NULL)
+            A = headB;
+        else
+            A = A->next;
+        if(B == NULL)
+            B = headA;
+        else
+            B = B->next;
+    }
+    return A;
+}
+
+【剑指Offer26】【树的子结构】：https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/
+bool IsSame(struct TreeNode* p,struct TreeNode* q){
+    if(q == NULL)
+        return true;
+    if(p == NULL)
+        return false;
+    return (p->val == q->val) && IsSame(p->left,q->left) && IsSame(p->right,q->right);
+}
+bool isSubStructure(struct TreeNode* A, struct TreeNode* B){
+    if(A == NULL || B == NULL)
+        return false;
+    if(IsSame(A,B))
+        return true;
+    return isSubStructure(A->left,B) || isSubStructure(A->right,B);
+}
+
