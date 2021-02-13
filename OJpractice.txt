@@ -744,5 +744,47 @@ int breakfastNumber(int* staple, int stapleSize, int* drinks, int drinksSize, in
    return cnt;
 }
 
+LeetCode【107】【二叉树的层序遍历】：https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/
+int Height(struct TreeNode* root){
+     if(NULL == root)
+        return 0;
+    int h_l = Height(root->left) + 1;
+    int h_r = Height(root->right) + 1;
+    return h_l>h_r?h_l:h_r; 
+ }
+int** levelOrderBottom(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+        if(NULL == root){
+        *returnSize = 0;
+        return NULL;
+    }
+    int h = Height(root);//树深
+    int** levelorder = (int**)malloc(sizeof(int*)*h);//开辟空间，存储数组指针
+    *returnSize = h;//数组指针的数目 = 树深
+    *returnColumnSizes =  (int *)malloc(sizeof(int)*h);//
+    
+    struct TreeNode*q1[1000],*q2[1000];
+    int q1_size = 0,q2_size = 0;
+    q1[0] = root;
+    q1_size++;
+    int level = 0;
+    while(level<h){
+        levelorder[h-1-level] = (int *)malloc(sizeof(int)*q1_size);
+        for(int i = 0;i<q1_size;i++)
+            levelorder[h-1-level][i] = q1[i]->val;
+        (*returnColumnSizes)[h-1-level] = q1_size;
+        for(int i = 0;i<q1_size;i++){//q1里的左右孩子存入q2，获得下一层数据
+            if(q1[i]->left != NULL)
+                q2[q2_size++] = q1[i]->left;
+            if(q1[i]->right != NULL)
+                q2[q2_size++] = q1[i]->right;
+        }
+        memcpy(q1,q2,sizeof(struct TreeNode*)*q2_size);
+        q1_size = q2_size;
+        q2_size = 0;
+        level++;
+    }
+    return levelorder;
+}
+
 
 
