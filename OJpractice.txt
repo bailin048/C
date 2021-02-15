@@ -786,5 +786,66 @@ int** levelOrderBottom(struct TreeNode* root, int* returnSize, int** returnColum
     return levelorder;
 }
 
+LCP【16】【速算机器人】：https://leetcode-cn.com/problems/nGK0Fy/
+int calculate(char* s){
+    int x = 1,y = 0;
+    while(*s){
+        if(*s == 'A')
+            x = 2*x + y;
+        else
+            y = 2*y + x;
+        s++;
+    }
+    return x+y;
+}
 
+LCP【11】【期望个数统计】：https://leetcode-cn.com/problems/qi-wang-ge-shu-tong-ji/
+void Sort(int* scores,int num){
+    int dk = num;
+    while(dk/=2){
+        for(int i = dk;i<num;i++){
+            int tmp = scores[i];
+            if(tmp<scores[i-dk]){
+                int j = 0;
+                for(j=i-dk;j>=0&&tmp<scores[j];j-=dk)
+                    scores[j+dk]=scores[j];
+                scores[j+dk] = tmp;
+            }
+        }
+    }
+}
+int expectNumber(int* scores, int scoresSize){
+    int cnt = 1;
+    Sort(scores,scoresSize);
+    for(int i = 1;i<scoresSize;i++){
+        if(scores[i]!=scores[i-1])
+            cnt+=1;
+    } 
+    return cnt;
+}
+
+LCP【06】【拿硬币】：https://leetcode-cn.com/problems/na-ying-bi/
+int minCount(int* coins, int coinsSize){
+    int cnt = 0;
+    for(int i = 0;i<coinsSize;i++)
+        cnt += coins[i]%2?(coins[i]/2+1):(coins[i]/2);
+    return cnt;
+}
+
+LCP【02】【分式化简】：https://leetcode-cn.com/problems/deep-dark-fraction/
+int* fraction(int* cont, int contSize, int* returnSize){
+    *returnSize = 2;
+    int* res = (int*)malloc(sizeof(int)*2);
+    int son = 1; //最后一分数，分子为1
+    int mother = cont[contSize-1];//分母为数组最后一个元素
+    int tmp = 0;//提供交换功能
+    for(int i = contSize - 2;i>=0;i--){
+        tmp = mother;//保存上次分母
+        mother = mother*cont[i]+son;//计算新分母
+        son = tmp;//分子继承tmp
+    }
+    res[0] = mother;//因为数组首元素计算完成后未发生分子分母交换,此处存储时反序即可
+    res[1] = son;
+    return res;
+}
 
