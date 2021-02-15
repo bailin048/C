@@ -849,3 +849,75 @@ int* fraction(int* cont, int contSize, int* returnSize){
     return res;
 }
 
+【剑指offer15】【二进制中1的个数】https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/
+int hammingWeight(uint32_t n) {
+    int cnt = 0;
+    for(int i = 0;i<32;i++){
+        if((n>>i)&1)
+            cnt++;
+    }
+    return cnt;
+}
+
+【剑指offer17】：打印从1到最大的n位数
+int* printNumbers(int n, int* returnSize){
+    int max = pow(10,n) - 1;
+    *returnSize = max;
+    int* res = (int*)malloc(sizeof(int)*max);
+    for(int i = 0;i < max;i++)
+        res[i] = i + 1;
+    return res;
+}
+
+【LCP22】【黑白方格画】：https://leetcode-cn.com/problems/ccw6C7/
+int factorail(int n,int m){
+    int son = 1,mother = 1; 
+    for(int k = n;k>n-m;k--)
+        son*=k;
+    for(int k = 1;k<=m;k++)
+        mother*=k;
+    return son/mother;
+}
+int paintingPlan(int n, int k){
+    if(k==n){
+        if(k==1)//n=k=1
+            return 1;
+        else//n==k!=1
+            return 2*n;
+    }
+    if(k==n*n || k==0)//白板或者黑板
+        return 1;
+    if(k<n)//一行都画不满，不让进循环，否则浪费空间时间
+        return 0;
+    int cnt = 0;
+    for(int i = 1;i<n;i++){
+        int res = k - i*n;
+        if(res>0){
+            int flag = res%(n-i)==0?res/(n-i)<n?res/(n-i):0:0;
+            if(flag)
+                cnt+=factorail(n,i)*factorail(n,flag);
+        }
+        else if(res == 0)
+            cnt += 2*factorail(n,i);
+        else
+            continue;
+    }
+    return cnt;
+}
+
+【剑指Offer18】【删除链表的节点】：https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/
+struct ListNode* deleteNode(struct ListNode* head, int val){
+    if(NULL == head)
+        return head;
+    struct ListNode* p = head;
+    struct ListNode* pre = NULL;
+    while(p){
+        if(p->val == val && p == head)
+            head = p->next;
+        else if(p->val == val)
+            pre->next = p->next;
+        pre = p;
+        p=p->next;
+    }
+    return head;
+}
