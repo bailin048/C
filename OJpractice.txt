@@ -921,3 +921,71 @@ struct ListNode* deleteNode(struct ListNode* head, int val){
     }
     return head;
 }
+
+【剑指offer27】【二叉树的镜像】：https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/
+struct TreeNode* mirrorTree(struct TreeNode* root){
+    if(NULL == root)
+        return NULL;
+    struct TreeNode* tmp = root->right;
+    root->right = root->left;
+    root->left = tmp;
+    mirrorTree(root->left);
+    mirrorTree(root->right);
+    return root;
+}
+
+【剑指offer32】【从上到下打印二叉树】：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/
+int height(struct TreeNode* root){
+    if(NULL == root)
+        return 0;
+    int h_l = height(root->left)+1;
+    int h_r = height(root->right)+1;
+    return h_l>h_r?h_l:h_r;
+ }
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+    if(NULL == root){
+        *returnSize = 0;
+        return NULL;
+    }
+    int h = height(root);
+    int** res = (int**)malloc(sizeof(int*)*h);
+    *returnSize = h;
+    *returnColumnSizes = (int*)malloc(sizeof(int)*h);
+
+    struct TreeNode* q1[1000],*q2[1000];
+    int q1_size =0,q2_size=0;
+    q1[0]=root;
+    q1_size++;
+    int layer = 0;
+    while(layer<h){
+        res[layer] = (int*)malloc(sizeof(int)*q1_size);
+        for(int i= 0;i<q1_size;i++)
+            res[layer][i] = q1[i]->val;
+        (*returnColumnSizes)[layer] = q1_size;
+        for(int i = 0;i<q1_size;i++){
+            if(q1[i]->left!=NULL)
+                q2[q2_size++] = q1[i]->left;
+            if(q1[i]->right!=NULL)
+                q2[q2_size++] = q1[i]->right;
+        }
+        memcpy(q1,q2,sizeof(struct TreeNode *)*q2_size);
+        q1_size = q2_size;
+        q2_size = 0;
+        layer++;
+    }
+    return res;
+}
+
+【剑指offer42】:最大子序和
+int maxSubArray(int* nums, int numsSize){
+    int submax = nums[0];
+    int max = nums[0];
+    for(int i= 1;i<numsSize;i++){  
+        if(submax<0)
+            submax = nums[i];
+        else  
+            submax += nums[i];
+        max = submax>max?submax:max; 
+    }
+    return max;
+}
