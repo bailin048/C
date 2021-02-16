@@ -989,3 +989,35 @@ int maxSubArray(int* nums, int numsSize){
     }
     return max;
 }
+
+【LeetCode151】【剑指offer58】【翻转单词顺序】：https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/
+int len = strlen(s);
+    if (len == 0)
+        return s;
+    char* res = (char*)malloc(len + 1);
+    memset(res, ' ', len + 1);
+    int i = len;
+    char* pre = s;
+    char* help = NULL;
+    char* target = NULL;
+    while (*pre) {
+        while (*pre && *pre == ' ')//跳空格
+            pre++;
+        help = pre;//help指向单词首字母
+        while (*pre && *pre != ' ')
+            pre++;
+        target = pre;//target指向单词右侧
+        if (*pre == '\0') {//最后一个单词，pre会指向'\0'
+            res[i--] = ' ';
+            pre--;
+        }
+        while (help-1 != pre) {//后退式复制带空格
+            res[i--] = *pre;
+            pre--;
+        }
+        pre = target;//复制完成pre回到空格处，寻找下一个单词
+    }
+    res[len] = '\0';//原本此处被放空格
+    while (*res == ' ')
+        res++;
+    return res;
