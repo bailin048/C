@@ -1161,3 +1161,78 @@ int* findDisappearedNumbers(int* nums, int numsSize, int* returnSize){
     *returnSize = cnt;
     return res;
 }
+
+LeetCode【409】【最长回文串】：https://leetcode-cn.com/problems/longest-palindrome/
+int longestPalindrome(char * s){
+    int cnt[128]={0},res = 0;
+    for(int i = 0;i<strlen(s);i++)
+        cnt[s[i]]++;
+    for(int i =0;i<128;i++)
+        res += cnt[i]/2*2;
+    return res<strlen(s)?res+1:res;
+}
+
+LeetCode【404】【左叶子之和】：https://leetcode-cn.com/problems/sum-of-left-leaves/
+bool isleaf(struct TreeNode* root){
+    return !root->left && !root->right;
+}
+int dfs(struct TreeNode* root){
+    int ans = 0;
+    if(root->left)
+        ans += isleaf(root->left)?root->left->val:dfs(root->left);
+    if(root->right && !isleaf(root->right))
+        ans += dfs(root->right);
+    return ans;
+}
+int sumOfLeftLeaves(struct TreeNode* root){
+    return root?dfs(root):0; 
+}
+
+LeetCode【405】【数字转化为十六进制数】：https://leetcode-cn.com/problems/convert-a-number-to-hexadecimal/
+char * toHex(int num){
+    if(0 == num)
+        return "0";
+    char *s = "0123456789abcdef";
+    int index = 0;
+    char* res = (char*)malloc(9);
+    memset(res,'0',9);
+    res[8] = '\0';
+    for(int i = 0;i < 8; i++)
+        res[7-i] = s[((unsigned int)num>>4*i)&(0xf)];
+    while(*res == '0')
+        res++;
+    return res;
+}
+
+LeetCode【401】【二进制手表】：https://leetcode-cn.com/problems/binary-watch/
+int bitnum(int n){
+     int cnt = 0;
+     while(n){
+        if(n&1)
+            cnt++;
+        n>>=1;
+     }
+     return cnt;
+ }
+char ** readBinaryWatch(int num, int* returnSize){
+    *returnSize = 0;
+     for(int h = 0;h < 12; h++){
+        for(int m = 0;m < 60; m++){
+            int k = bitnum(h) + bitnum(m);
+            if(k == num)
+                (*returnSize)++;
+        }
+    }
+    char** res = (char**)malloc(sizeof(char*)*(*returnSize));
+    int i = 0;
+    for(int h = 0;h < 12; h++){
+        for(int m = 0;m < 60; m++){
+            int k = bitnum(h) + bitnum(m);
+            if(k == num){
+                res[i] = (char*)malloc(6);
+                sprintf(res[i++],"%d:%02d",h,m);
+            }
+        }
+    }
+    return res;
+}
