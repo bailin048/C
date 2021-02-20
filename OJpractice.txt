@@ -1301,3 +1301,72 @@ char findTheDifference(char * s, char * t){
     }
     return ' ';
 }
+
+面试题【01.01】【判定字符串是否唯一】：https://leetcode-cn.com/problems/is-unique-lcci/
+bool isUnique(char* astr){
+    int num[26] = {0};
+    int len = strlen(astr);
+    for(int i=0;i<len;i++)
+        num[astr[i]-'a']++;
+    for(int i=0;i<26;i++)
+        if(num[i]>1)
+            return false;
+    return true;
+}
+
+面试题【01.02】【判定是否为字符重排】：https://leetcode-cn.com/problems/check-permutation-lcci/
+bool CheckPermutation(char* s1, char* s2){
+    int nums[26]={0};
+    int ls1 = strlen(s1),ls2 = strlen(s2);
+    for(int i = 0;i<ls1;i++)
+        nums[s1[i]-'a']++;
+    for(int i = 0;i<ls2;i++)
+        nums[s2[i]-'a']--;
+    for(int i = 0;i<26;i++)
+        if(nums[i]!=0)
+            return false;
+    return true;
+}
+
+面试题【01.06】【字符串压缩】：https://leetcode-cn.com/problems/compress-string-lcci/
+static int _len(int k)
+{
+    int cnt = 1;
+    while(k/=10)
+        cnt++;
+    return cnt;
+}
+char* compressString(char* S){
+    int charsSize = strlen(S);
+    int size = 100000;
+    char* chars = (char*)malloc(1000001);
+    memset(chars,'\0',size+1);
+    int follow = 0;
+    int pre = 0;
+    int t = 0;
+    while(pre<charsSize){
+        while(pre<charsSize&&S[follow]==S[pre])//出此循环说明pre已到下一个字符
+            pre++;
+        chars[t] = S[follow];//将字符填入
+        t++;
+        int k = pre - follow;//计算与chars[follow]相同字符的数目
+        int nums = _len(k);//获取k的位数
+        while(nums)//只有个数大于1才能填入计数
+            chars[t++] = k/(int)pow(10,--nums)%10+'0';//分数位填入
+        if(pre<charsSize)//字符数组未遍历完
+            follow = pre;
+        else //遍历完
+            break;
+    }
+    return strlen(chars)>=charsSize?S:chars;
+}
+
+LeetCode【268】【丢失的数字】：https://leetcode-cn.com/problems/missing-number/
+int missingNumber(int* nums, int numsSize){
+    int tmp=0;
+    for(int i = 0;i<numsSize;i++)
+        tmp^=nums[i],tmp^=i;
+    for(int i = 0;i<=numsSize;i++)
+        tmp ^= i;
+    return tmp;
+}
