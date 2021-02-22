@@ -1425,3 +1425,38 @@ bool isPerfectSquare(int num){
     }
     return num==0?true:false;
 }
+
+剑指offer【06】【从头到尾打印链表】：https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
+int* reversePrint(struct ListNode* head, int* returnSize){
+    int len = 0;
+    struct ListNode* p = head;
+    while(p){
+        p = p->next;
+        len++;
+    }
+    *returnSize = len;
+    p = head;
+    int* res = (int*)malloc(sizeof(int)*len);
+    for(int i = len - 1;i>=0;i--){
+        res[i] = p->val;
+        p = p->next;
+    }
+    return res;
+}
+
+剑指offer【16】【数值的整数次方】：https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/
+double myPow(double x, int n){
+    double res = 1.0;
+    long int y = (long int)n;
+    if(n<0){
+        x= 1.0/x;
+        y=-y;
+    }
+    while(y){
+        if(y&1)
+            res*=x;
+        x*=x;
+        y/=2;
+    }
+    return res;
+}
