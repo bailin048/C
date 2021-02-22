@@ -1370,3 +1370,58 @@ int missingNumber(int* nums, int numsSize){
         tmp ^= i;
     return tmp;
 }
+
+LeetCode【242】【有效的字母异位词】：https://leetcode-cn.com/problems/valid-anagram/
+bool isAnagram(char * s, char * t){
+    int lens = strlen(s);
+    int lent = strlen(t);
+    if(lens != lent)
+        return false;
+    int num[26]={0};
+    for(int i = 0;i<lens;i++){
+            num[s[i]-'a']++;
+            num[t[i]-'a']--;
+    }
+    for(int i = 0;i<26;i++)
+        if(num[i]>0)
+            return false;
+    return true;
+}
+
+LeetCode【153】【寻找旋转排序数组的最小值】：https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/
+int findMin(int* nums, int numsSize){
+    int left = 0,right = numsSize - 1;
+    while(left<right){
+        int mid = left+(right-left)/2;
+        if(nums[mid]>nums[right])
+            left = mid + 1;
+        else
+            right = mid;
+    }
+    return nums[left];
+}
+
+剑指offer/LeetCode【11/154】【旋转数组的最小数字】：https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/
+int minArray(int* numbers, int numbersSize){
+    int left = 0,right = numbersSize-1;
+    while(left<right){
+        int mid=left+(right-left)/2;
+        if(numbers[mid]>numbers[right])
+            left = mid + 1;
+        else if(numbers[mid] == numbers[right])
+            right--;
+        else
+            right = mid;
+    }
+    return numbers[left];
+}
+
+LeetCode【367】【有效的完全平方数】：https://leetcode-cn.com/problems/valid-perfect-square/
+bool isPerfectSquare(int num){
+    int i = -1;
+    while(num>0){
+        i+=2;
+        num-=i;
+    }
+    return num==0?true:false;
+}
