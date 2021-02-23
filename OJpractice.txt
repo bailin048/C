@@ -1460,3 +1460,96 @@ double myPow(double x, int n){
     }
     return res;
 }
+
+剑指offer【05】【替换空格】：https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/
+char* replaceSpace(char* s){
+    int len = strlen(s);
+    char*res = (char*)malloc(sizeof(char)*3*len+1);
+    memset(res,'\0',3*len+1);
+    int cnt = 0;
+    for(int i = 0;i<len;i++){
+        if(s[i] == ' '){
+            strcat(res,"%20");
+            cnt+=3;
+        }
+        else
+            res[cnt++] = s[i];
+    }
+    return res;
+}
+
+剑offer【09】【用两个栈实现队列】：https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/
+#define NUM 10000
+typedef struct {
+    int *s1 ;
+    int len_s1;
+    int *s2;
+    int len_s2;
+} CQueue;
+
+CQueue* cQueueCreate() {
+    CQueue* Q = (CQueue*)malloc(sizeof(CQueue));
+    Q->s1 = (int*)malloc(sizeof(int)*NUM);
+    Q->s2 = (int*)malloc(sizeof(int)*NUM);
+    Q->len_s1 = -1;
+    Q->len_s2 = -1;
+    return Q;
+}
+
+void cQueueAppendTail(CQueue* obj, int value) {
+    if(obj->len_s1>=10000)
+        return;
+    obj->s1[++obj->len_s1] = value;
+}
+
+int cQueueDeleteHead(CQueue* obj) {
+    if(obj->len_s2 == -1 && obj->len_s1 == -1)
+        return;
+    if(obj->len_s2 == -1){
+        while(obj->len_s1 != -1)
+            obj->s2[++obj->len_s2] = obj->s1[obj->len_s1--];
+    }
+    return obj->s2[obj->len_s2--];
+}
+
+void cQueueFree(CQueue* obj) {
+    free(obj->s1);
+    free(obj->s2);
+    obj->s1 = NULL;
+    obj->s2 = NULL;
+    obj->len_s1 = -1;
+    obj->len_s2 = -1;
+}
+
+剑指offer【29】【顺时针打印矩阵】：https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/
+int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize){
+    if(matrixSize == 0 || matrixColSize[0] == 0){
+        *returnSize = 0;
+        return NULL;
+    }
+    int all = matrixSize*matrixColSize[0];
+    int* res = (int*)malloc(sizeof(int)*all);
+    *returnSize = all;
+    int left = 0,right = matrixColSize[0]-1 ;
+    int top = 0,bottom = matrixSize-1;
+    int cnt = 0;
+    while(cnt<all){
+        int l = left,r = right,t = top,b = bottom;
+       while(cnt<all && l<=right)
+           res[cnt++]=matrix[top][l++];
+        t++;
+        while(cnt<all && t<=bottom)
+            res[cnt++]=matrix[t++][right];
+        r--;
+        while(cnt<all && r>=left)
+            res[cnt++]=matrix[bottom][r--];
+        b--;
+        while(cnt<all && b>top)
+            res[cnt++]=matrix[b--][left];
+        left++;
+        right--;
+        top++; 
+        bottom--;
+    }
+    return res;      
+}
