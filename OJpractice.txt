@@ -1553,3 +1553,90 @@ int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSi
     }
     return res;      
 }
+
+LeetCode【392】【判断子序列】：https://leetcode-cn.com/problems/is-subsequence/
+bool isSubsequence(char * s, char * t){
+    if(NULL == t && NULL == s)
+        return true;
+    if(NULL == s)
+        return true;
+    if(NULL == t)
+        return false;
+    while(*t){
+        if(*t == *s)
+            s++;
+        t++;
+    }
+    return *s == '\0';
+}
+
+LeetCode【400】【第N位数字】：https://leetcode-cn.com/problems/nth-digit/
+int helper(long int n){
+    int cnt = 0;
+    while(n>0){
+        n -= 9*(long int)pow(10,cnt)*(cnt+1);
+        cnt++;
+    }
+    return cnt;
+}
+int findNthDigit(int n){
+    int pos = helper(n);//确定处于几位数范围
+    int cnt = 0;
+    while(cnt < pos - 1)//计算剩余的部分,刨去位数<pos的区间
+        n-=(9*(int)pow(10,cnt++)*cnt);
+    int start = (int)pow(10,pos-1);//最小的pos位数
+    int count = n / pos,res = n % pos; //计算第n个数字位置之前有多少整数及余数
+    int flag = res>=1?1:0; 
+    int num = start + count - 1 + flag;//计算第n个数字位于哪个数字上
+    res = n - (num-start)*pos; //计算位于num的第几位
+    return (num/(int)pow(10,pos-res))%10;
+}
+
+LeetCode【397】【整数替换】：https://leetcode-cn.com/problems/integer-replacement/
+int integerReplacement(int n){
+    int cnt = 0;
+    while(n>1){
+        if(n == INT_MAX)//上界单独处理
+            n--,n/=2,n++,cnt++;
+        else if(!(n%2))//偶数
+            n>>=1;
+        else //奇数
+            n += ((n & 2) == 0 || n == 3)?-1:1;//0x？？？？？？？[??01]及0x11减1，其他++1；
+        cnt++;
+    }
+    return cnt;
+}
+
+LeetCode【2】【两数相加】：https://leetcode-cn.com/problems/add-two-numbers/
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode* addres = NULL;
+    struct ListNode* p = addres;
+    int flag = 0;
+    while(l1||l2){
+        int n1 = l1?l1->val:0;
+        int n2 = l2?l2->val:0;
+        int tmp = n1 + n2 + flag;
+        flag = tmp>9?1:0;
+        if (!addres){
+            p = addres = (struct ListNode*)malloc(sizeof(struct ListNode));
+            p->val = tmp%10;
+            p->next = NULL; 
+        }
+        else{
+            p->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+            p->next->val = tmp%10;
+            p->next->next = NULL;
+            p = p->next;
+        }
+        if(l1)
+            l1=l1->next;
+        if(l2)
+            l2=l2->next;
+    }
+    if(flag > 0){
+         p->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+            p->next->val = flag;
+            p->next->next = NULL;
+    }
+    return addres;
+}
