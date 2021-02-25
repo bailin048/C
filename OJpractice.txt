@@ -1640,3 +1640,61 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     }
     return addres;
 }
+
+LeetCode【492】【构造矩形】：https://leetcode-cn.com/problems/construct-the-rectangle/
+int* constructRectangle(int area, int* returnSize){
+    *returnSize = 2;
+    int* res = (int*)malloc(sizeof(int)*2);
+    int l = sqrt(area);
+    while(area%l)
+        l++;
+    int w = area/l;
+    res[0] = l>w?l:w;
+    res[1] = l>w?w:l;
+    return res;
+}
+
+LeetCode【344】【反转字符串】：https://leetcode-cn.com/problems/reverse-string/
+void reverseString(char* s, int sSize){
+    for(int i = 0;i<sSize/2;i++){
+        char tmp = s[sSize-1-i];
+        s[sSize-i-1]=s[i];
+        s[i] = tmp;
+    }
+}
+
+LeetCode【263】【丑数】：https://leetcode-cn.com/problems/ugly-number/
+bool isUgly(int num){
+    if(num<1)
+        return false;
+    if(1 == num)
+        return true;
+    while((num != 2) && (num != 3) && (num != 5)){
+        if(num%2==0)
+        num/=2;
+        else if(num%3==0)
+            num/=3;
+        else if(num%5==0)
+            num/=5;
+        else
+            return false;
+    }
+    return true;
+}
+
+LeetCode【283】【移动0】：https://leetcode-cn.com/problems/move-zeroes/
+void moveZeroes(int* nums, int numsSize){
+    int left = 0,right = left;
+    while(right<numsSize){
+        while(left < numsSize - 1  && nums[left] != 0)
+            left++;
+        right = left + 1;
+        while(right < numsSize && nums[right] == 0)
+            right++;
+        if(right<numsSize){
+            nums[left] = nums[right];
+            nums[right] = 0;
+            left++;
+        }
+    }
+}
