@@ -1698,3 +1698,34 @@ void moveZeroes(int* nums, int numsSize){
         }
     }
 }
+
+typedef struct {
+    int *num;
+    int *sum;
+} NumArray;
+
+
+NumArray* numArrayCreate(int* nums, int numsSize) {
+    NumArray* res = (NumArray*)malloc(sizeof(NumArray));
+    if(numsSize < 1)
+        return NULL;
+    res->num = nums;
+    res->sum = (int *)malloc(sizeof(int)*numsSize);
+    int tmp = 0;
+    for(int i = 0;i<numsSize;i++){
+        res->sum[i] = tmp + res->num[i];
+        tmp+=res->num[i];
+    }
+    return res;
+}
+
+LeetCode【303】【区域和检索-数组不可变】：https://leetcode-cn.com/problems/range-sum-query-immutable/
+int numArraySumRange(NumArray* obj, int i, int j) {
+    if(i==0)
+        return obj->sum[j];
+    return obj->sum[j]-obj->sum[i-1];
+}
+
+void numArrayFree(NumArray* obj) {
+    free(obj);
+}
