@@ -1699,15 +1699,14 @@ void moveZeroes(int* nums, int numsSize){
     }
 }
 
+LeetCode【303】【区域和检索-数组不可变】：https://leetcode-cn.com/problems/range-sum-query-immutable/
 typedef struct {
     int *num;
     int *sum;
 } NumArray;
 
-
 NumArray* numArrayCreate(int* nums, int numsSize) {
     NumArray* res = (NumArray*)malloc(sizeof(NumArray));
-    if(numsSize < 1)
         return NULL;
     res->num = nums;
     res->sum = (int *)malloc(sizeof(int)*numsSize);
@@ -1719,7 +1718,6 @@ NumArray* numArrayCreate(int* nums, int numsSize) {
     return res;
 }
 
-LeetCode【303】【区域和检索-数组不可变】：https://leetcode-cn.com/problems/range-sum-query-immutable/
 int numArraySumRange(NumArray* obj, int i, int j) {
     if(i==0)
         return obj->sum[j];
@@ -1728,4 +1726,102 @@ int numArraySumRange(NumArray* obj, int i, int j) {
 
 void numArrayFree(NumArray* obj) {
     free(obj);
+}
+
+/**
+ * Your NumArray struct will be instantiated and called as such:
+ * NumArray* obj = numArrayCreate(nums, numsSize);
+ * int param_1 = numArraySumRange(obj, i, j);
+ 
+ * numArrayFree(obj);
+*/
+
+剑指offer【14-1】【减绳子】：https://leetcode-cn.com/problems/jian-sheng-zi-lcof/
+int cuttingRope(int n){
+    if(n==2)
+        return 1;
+    if(n==3)
+        return 2;
+    int res = 1;
+    while(n){
+        if(n==1)
+            return res/3*4;
+        else if(n==2)
+            return res*2;
+        else{
+            n-=3;
+            res*=3;
+        }
+    }
+    return res;
+}
+
+LeetCode【349】【两个数组的交集】：https://leetcode-cn.com/problems/intersection-of-two-arrays/
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize){
+    Sort(nums1,0,nums1Size);
+    Sort(nums2,0,nums2Size);
+    int len = nums1Size<nums2Size?nums1Size:nums2Size;
+    int * res = (int*)malloc(sizeof(int)*len);
+    int cnt =  0;
+    int index1 = 0,index2 = 0;
+    while(index1<nums1Size&&index2<nums2Size){
+        int num1 = nums1[index1],num2 = nums2[index2];
+        if(num1 == num2){
+            if(cnt == 0 || nums1[index1] != res[cnt-1])
+                res[cnt++] = nums1[index1]; 
+            index1++;
+            index2++;
+        }else if(num1<num2)
+            index1++;
+        else
+            index2++;
+    }
+    *returnSize = cnt;
+    return res;
+}
+
+
+LeetCode【350】【l两个数组的交集II】：https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
+int QkPass(int* a,int left,int right){
+     int low = left,high = right - 1;
+     int key = a[low];
+     while(low<high){
+        while(low<high && a[high]>=key)
+            high--;
+        a[low] = a[high];
+        while(low<high && a[low]<key)
+            low++;
+        a[high] = a[low];
+     }
+    a[low] = key;
+    return low;
+ }
+ void Sort(int* a,int left,int right){
+     if(left<right){
+         int pos = QkPass(a,left,right);
+         Sort(a,left,pos);
+         Sort(a,pos+1,right);
+     }
+ }
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize){
+    Sort(nums1,0,nums1Size);
+    Sort(nums2,0,nums2Size);
+    int len = nums1Size<nums2Size?nums1Size:nums2Size;
+    int * res = (int*)malloc(sizeof(int)*len);
+    int cnt =  0;
+    int index1 = 0,index2 = 0;
+    while(index1<nums1Size&&index2<nums2Size){
+        int num1 = nums1[index1],num2 = nums2[index2];
+        if(num1<num2)
+            index1++;
+        else if(num1>num2)
+            index2++;
+        else{
+            res[cnt++] = nums1[index1]; 
+            index1++;
+            index2++;
+        }
+    }
+    *returnSize = cnt;
+    return res;
 }
