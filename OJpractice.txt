@@ -421,7 +421,7 @@ int compress(char* chars, int charsSize){
 }
 LeetCode【150】【根据逆波兰表示法，求表达式的值】：https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/
 int evalRPN(char ** tokens, int tokensSize){
-    int* stack = (int*)malloc(tokensSize*sizeof(int));
+    int* stack = (int*)malloc((tokensSize/2+1)*sizeof(int));
     int top = -1;
     int n1 = 0,n2 = 0;
     for(int i = 0;i<tokensSize;i++){
@@ -1824,4 +1824,29 @@ int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* return
     }
     *returnSize = cnt;
     return res;
+}
+
+剑指offer【48】【最长不含重复字符的子字符串】：https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/
+int lengthOfLongestSubstring(char* s){
+    int len = strlen(s);
+    int alpha[128]={0};//标志数组
+    char* front = s,*rear = s;
+    int cnt = 0;
+    int max = 0;
+    while(*front){
+        if(alpha[*front]==0){//未出现过
+            alpha[*front] = 1;
+            cnt++;
+        }else{
+            while(*rear != *front){//出现重复字符
+                alpha[*rear]=0;
+                rear++;
+                cnt--; 
+            }
+            rear++;
+        }
+        front++;
+        max = max>cnt?max:cnt;
+    }
+    return max;
 }
