@@ -1958,3 +1958,5 @@ bool isStraight(int* nums, int numsSize){
     }
     return nums[numsSize-1]-nums[left]<5?true:false;
 }
+
+
