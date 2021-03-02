@@ -67,4 +67,4 @@ linux进度条实现(centos7.2)
 
 2021_1_19：赎金信，回文数判断
 
-OJpratice.txt:日常OJ练习合集【更新中^_^】
+OJpratice.txt:日常OJ练习合集【每日更新中^_^】
