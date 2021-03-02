@@ -1876,3 +1876,63 @@ int f(int n,int m){
 int lastRemaining(int n, int m) {
     return f(n,m);  
 }
+
+剑指offer【59-I】【滑动窗口的最大值】：https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/
+int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize){
+    if(numsSize == 0){
+        *returnSize = 0;
+        return NULL;
+    }
+    *returnSize = numsSize - k + 1;//返数字数目可推导得到
+    int* res = (int*)malloc(sizeof(int)*(*returnSize));
+    int left = 0,right = k - 1;
+    int count = 0;
+    int maxindex = 0;
+    while(right<numsSize){
+        if(maxindex == 0 || maxindex < left){//第一个窗口 || 最大值索引已不在新窗口内
+            int j = left;
+            maxindex = left;
+            while(j<=right){//寻找新的最大值索引
+                if(nums[maxindex]<nums[j])
+                    maxindex=j;
+                j++;
+            }
+        }else{//最大值索引仍在窗口内
+            if(nums[right]>nums[maxindex])//新进窗口的值最大
+                maxindex = right;
+        }
+        res[count++] = nums[maxindex];//最大值写入
+        left++,right++; //窗口移动
+    }
+    return res;
+}
+
+【单调队列解法】：
+int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize){
+    if(k == 1){
+        *returnSize = numsSize;
+        return nums;
+    }
+    if(numsSize == 0){
+        *returnSize = 0;
+        return NULL;
+    }
+    *returnSize = numsSize + 1 - k;
+    int* res = (int*)malloc(sizeof(int)*(*returnSize));
+    int* deque = (int*)malloc(sizeof(int)*numsSize);//单调队列
+    int ql = 0,qr = 0;//队列索引
+    int left = 0;//数组索引
+    int cnt = 0;
+    while(left<numsSize){
+        while(ql != qr && nums[left] > nums[deque[qr-1]])//栈尾元素小于将入队元素
+            qr--;//之所以是>而不>=，原因在于尽可能令最大值的索引小
+        deque[qr++] = left;//入队
+        if(left >= k - 1){//窗口
+            res[cnt++] = nums[deque[ql]];
+            if(ql != qr && deque[ql] <= left -k + 1)
+                ql++;
+        }
+        left++;
+    }
+    return res;
+}
