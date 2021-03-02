@@ -1936,3 +1936,25 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize){
     }
     return res;
 }
+
+剑指offer【61】【扑克牌中的顺子】：https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/
+bool isStraight(int* nums, int numsSize){
+    for(int i = 1;i<numsSize;i++){
+        if(nums[i]<nums[i-1]){
+            int key = nums[i];
+            int j = i - 1;
+            for( ;j>=0&&nums[j]>key;j--)
+                nums[j+1]=nums[j];
+            nums[j+1] = key;
+        }
+    }
+    int left = 0;
+    for(int i = 0;i<numsSize - 1;i++){
+        if(nums[i]==0)//跳过0，并将left定在最小值的索引处
+            left++;
+        else if(nums[i] == nums[i+1])//前两个重复
+            return false;
+        else{}
+    }
+    return nums[numsSize-1]-nums[left]<5?true:false;
+}
