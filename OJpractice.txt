@@ -2015,3 +2015,62 @@ bool canPermutePalindrome(char* s){
     }
     return true;   
 }
+
+LeetCode【537】【复数乘法】：https://leetcode-cn.com/problems/complex-number-multiplication/
+char * complexNumberMultiply(char * a, char * b){
+    int x1 = atoi(a),x2 = atoi(b);
+    while(*a!='+')
+        a++;
+    a++;
+    while(*b!='+')
+        b++;
+    b++;
+    int y1 = atoi(a),y2=atoi(b);
+    int x = x1*x2-y1*y2;//实部
+    int y = x1*y2+x2*y1;//虚部
+    char *res = (char*)malloc(15);//-10000+-10000i
+    sprintf(res,"%d+%di",x,y);
+    return res;
+} 
+
+LeetCode【520】【检测大写字母】：https://leetcode-cn.com/problems/detect-capital/
+bool detectCapitalUse(char * word){
+    if('a' <= *word && *word<='z'){//首字母小写
+        while(*word){//纯小写
+            if('A'<=*word && *word <= 'Z')//出现大写
+                return false;
+            word++;
+        }
+    }else{//首字母大写
+        word++;//第二个字母
+        if('a' <= *word && *word <= 'z'){//第二个字母小写
+            while(*word){//纯小写
+                if('A' <= *word && *word <= 'Z')//出现大写
+                    return false;
+                word++;
+            }
+        }else{//第二个字母大写
+            while(*word){//要求纯大写
+                if(islower(*word))
+                    return false;
+                word++;
+            }
+        }
+    }
+    return true;
+}
+
+LeetCode【540】【有序数组中的单一元素】：https://leetcode-cn.com/problems/single-element-in-a-sorted-array/
+int singleNonDuplicate(int* nums, int numsSize){
+    int left = 0,right = numsSize-1;
+    while(left<right){
+        int mid = left + ((right-left)>>1);
+        if(mid%2)
+            mid--;
+        if(nums[mid] == nums[mid+1])
+            left = mid + 2;
+        else
+            right = mid;
+    }
+    return nums[left];
+}
