@@ -2088,4 +2088,40 @@ int findMaxConsecutiveOnes(int* nums, int numsSize){
     }
     return max >cnt?max:cnt;
 }
+
+LeetCode【面试题01.08】【零矩阵】：https://leetcode-cn.com/problems/zero-matrix-lcci/
+void setZeroes(int** matrix, int matrixSize, int* matrixColSize){
+    if(matrixSize == 0 || matrixColSize[0] == 0)
+        return;
+    int* row = (int*)malloc(sizeof(int)*matrixSize);
+    int* col = (int*)malloc(sizeof(int)*matrixColSize[0]);
+    memset(row,0,sizeof(int)*matrixSize);
+    memset(col,0,sizeof(int)*matrixColSize[0]);
+    for(int i = 0;i<matrixSize;i++){
+        for(int j = 0;j<matrixColSize[0];j++)
+            if(matrix[i][j]==0){
+                row[i] = 1;
+                col[j] = 1;
+            }
+    }
+    int tmp =0;
+    while(tmp<matrixSize){
+        if(row[tmp] == 1){
+            int j = 0;
+            while(j<matrixColSize[0])
+                matrix[tmp][j++] = 0;
+        }
+        tmp++;
+    }
+    tmp = 0;
+    while(tmp<matrixColSize[0]){
+        if(col[tmp] == 1){
+            int i = 0;
+            while(i<matrixSize)
+                matrix[i++][tmp] = 0;
+        }
+        tmp++;
+    }
+}
+
  
