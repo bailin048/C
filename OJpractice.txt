@@ -2124,4 +2124,91 @@ void setZeroes(int** matrix, int matrixSize, int* matrixColSize){
     }
 }
 
+剑指offer【56-II】【数组中数字出现的次数II】：https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/
+int singleNumber(int* nums, int numsSize){
+    int dk = numsSize;
+    while(dk/=2){
+        for(int i = dk;i<numsSize;i++){
+            if(nums[i]<nums[i-dk]){
+                int tmp = nums[i];
+                int j = 0;
+                for(j = i-dk;j>=0&&tmp<nums[j];j-=dk)
+                    nums[j+dk] = nums[j];
+                nums[j+dk] = tmp; 
+            }
+        }
+    }
+    for(int i = 0;i<numsSize-1;i+=3)
+        if(nums[i]!=nums[i+1])
+            return nums[i];
+    return nums[numsSize-1];
+}
+
+面试题【01.05】【一次编辑】：https://leetcode-cn.com/problems/one-away-lcci/
+bool oneEditAway(char* first, char* second){
+    int len1 = strlen(first);
+    int len2 = strlen(second);
+    if(fabs(len1-len2)>1)//三个操作使得两字符串长度差不大于1
+        return false;
+    if(len1 == len2){//换 or 不变
+        int cnt = 0;
+        for(int i = 0;i<len1;i++){
+            if(first[i]!=second[i])
+                cnt++;
+            if(cnt>1)
+                return false;
+        }
+    }else{//删
+        char* longs = len1>len2?first:second;
+        char* shorts = len1>len2?second:first;
+        int len = strlen(longs);
+        int flag = 1;
+        int index1 = 0,index2 = 0;
+        while(index1<len){
+            if(longs[index1]!=shorts[index2]){
+                if(flag){
+                    flag = 0;
+                    index1++;
+                }else
+                    return false;
+            }else
+                index1++,index2++;
+        }
+    } 
+    return true;
+}
+
+面试题【01.09】【字符串轮转】：https://leetcode-cn.com/problems/string-rotation-lcci/
+bool isFlipedString(char* s1, char* s2){
+    int len1 = strlen(s1);
+    int len2 = strlen(s2);
+    if(len1!=len2)
+        return false;
+    if((!len1) && len1 == len2)
+        return true;
+    char *a =(char*)malloc(2*len1+1);
+    memset(a,'\0',2*len1+1); 
+    strcat(a,s1);
+    strcat(a,s1);
+    int i = 0;
+    while(i<len1){
+        if(a[i]==s2[0]){//遇见与s2首字母相同的字母
+            char tmp = a[i+len1];//只比较len1长度
+            a[i+len1] = '\0';
+            if(strcmp(a+i,s2)==0)//是
+                return true;
+            a[i+len1] = tmp;//否则将字母放回
+        }
+        i++;//继续向后
+    }
+    return false;
+}
+
+面试题【02.03】【删除中间节点】：https://leetcode-cn.com/problems/delete-middle-node-lcci/
+void deleteNode(struct ListNode* node) {
+    struct ListNode *p = node->next;
+    node->val = p->val;
+    node->next = p->next;
+    free(p);
+}
  
