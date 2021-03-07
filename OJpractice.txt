@@ -2212,4 +2212,43 @@ void deleteNode(struct ListNode* node) {
     free(p);
 }
  
+面试题【02.01】【移除重复节点】：https://leetcode-cn.com/problems/remove-duplicate-node-lcci/
+struct ListNode* removeDuplicateNodes(struct ListNode* head){
+    if(head == NULL || head->next == NULL)//空表或单节点
+        return head;
+    struct ListNode* rear = head;
+    struct ListNode* front = rear->next;
+    struct ListNode* t=rear;;
+    while(rear){
+        while(front&&front->val != rear->val){//出此循环：front == NULL or front->val = rear->val
+            t = t->next;
+            front = front->next;
+        }
+        if(front){//重复节点
+            t->next = front->next;
+            free(front);
+            front = t->next;
+            continue;//继续向后查找
+        }
+        rear = rear->next;
+        if(rear){
+            front = rear->next;
+            t = rear;
+        }
+    }
+    return head;
+}
+
+面试题【02.02】【返回倒数第k个节点】：https://leetcode-cn.com/problems/kth-node-from-end-of-list-lcci/
+int kthToLast(struct ListNode* head, int k){
+    struct ListNode* front = head;
+    struct ListNode* rear = head;
+    while(k--)
+        front = front->next;
+    while(front){
+        front = front->next;
+        rear = rear->next;
+    }
+    return rear->val;
+}
 
