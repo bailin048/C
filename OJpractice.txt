@@ -2252,3 +2252,48 @@ int kthToLast(struct ListNode* head, int k){
     return rear->val;
 }
 
+LeetCode【36】【有效的数独】：https://leetcode-cn.com/problems/valid-sudoku/
+bool isValidSudoku(char** board, int boardSize, int* boardColSize){
+    int* row = (int*)malloc(sizeof(int)*9);
+    int* col = (int*)malloc(sizeof(int)*9);
+    for(int i = 0;i <9 ;i++){
+        memset(row,0,sizeof(int)*9);
+        memset(col,0,sizeof(int)*9);
+        for(int  j = 0;j<9;j++){//统计数字出现次数
+            if(board[i][j]!='.')
+                row[board[i][j]-'0'-1]++;
+            if(board[j][i]!='.')
+                col[board[j][i]-'0'-1]++;
+        }
+        for(int k = 0;k<9;k++)//检测同一行/同一列是否有重复数字
+            if(row[k]>1||col[k]>1)
+                return false;
+    }
+    for(int i = 0;i<9;i++){//i代表子九宫的编号
+        int r_min = i/3*3,c_min = i%3*3; //从编号解出子九宫的行列初始值
+        memset(row,0,sizeof(int)*9);
+        for(int k = r_min;k<r_min+3;k++)//统计子九宫数字出现次数
+            for(int t = c_min;t<c_min+3;t++)
+                if(board[k][t]!='.')
+                    row[board[k][t]-'0'-1]++;
+        for(int k = 0;k<9;k++)
+            if(row[k]>1)
+                return false;
+    }
+    return true;
+}
+
+LeetCode【7】【整数反转】：https://leetcode-cn.com/problems/reverse-integer/
+int reverse(int x){
+    int res = 0;
+    while(x/10){
+        res = res*10+x%10;
+        x/=10;
+    }
+    if((res>INT_MAX/10)||((res==INT_MAX/10)&&(x>7)))   
+        return 0;
+    else if((res<INT_MIN/10)||((res==INT_MIN/10)&&(x<-8)))  
+        return 0;
+    else    
+        return res*10+x;
+}
