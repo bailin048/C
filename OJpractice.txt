@@ -2402,3 +2402,17 @@ int rob(struct TreeNode* root){
     int NorRob = rob(root->left)+rob(root->right);//不偷父节点，偷孩子
     return RobSum>NorRob?RobSum:NorRob;
 }
+
+剑指offer【03】【数组中重复的数字】：https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/
+int findRepeatNumber(int* nums, int numsSize){
+    int* count = (int*)malloc(sizeof(int)*numsSize);
+    memset(count,0,sizeof(int)*numsSize);
+    int i = 0;
+    for(;i<numsSize;i++){
+        if(count[nums[i]]==0)
+            count[nums[i]]++;
+        else
+            break;
+    } 
+    return nums[i];
+}
