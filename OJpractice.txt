@@ -2416,3 +2416,229 @@ int findRepeatNumber(int* nums, int numsSize){
     } 
     return nums[i];
 }
+
+LeetCode【384】【打乱数组】：https://leetcode-cn.com/problems/shuffle-an-array/
+typedef struct {
+    int* src;
+    int* record;
+    int size;
+} Solution;
+
+
+Solution* solutionCreate(int* nums, int numsSize) {
+    Solution* obj = (Solution*)malloc(sizeof(Solution));
+    obj->src = (int*)malloc(sizeof(int)*numsSize);
+    obj->record = (int*)malloc(sizeof(int)*numsSize);
+    obj->size = numsSize;
+    for(int i = 0;i<numsSize;i++){
+        obj->record[i] = nums[i];
+        obj->src[i] = nums[i];
+    }
+    return obj;
+}
+
+/** Resets the array to its original configuration and return it. */
+int* solutionReset(Solution* obj, int* retSize) {
+    *retSize = obj->size;
+    for(int i = 0;i<obj->size;i++)
+        obj->src[i] = obj->record[i];
+    return obj->src;
+}
+
+/** Returns a random shuffling of the array. */
+int* solutionShuffle(Solution* obj, int* retSize) {
+    *retSize = obj->size;
+    for(int i = 0;i<obj->size;i++){
+        int x = rand()%(obj->size - i) + i;
+        int tmp = obj->src[i];
+        obj->src[i] = obj->src[x];
+        obj->src[x] = tmp;
+    }
+    
+    return obj->src;
+}
+
+void solutionFree(Solution* obj) {
+    free(obj->src);
+    free(obj->record);
+    obj->size = 0;
+    obj->src = NULL;
+    obj->record = NULL;
+}
+
+/**
+ * Your Solution struct will be instantiated and called as such:
+ * Solution* obj = solutionCreate(nums, numsSize);
+ * int* param_1 = solutionReset(obj, retSize);
+ 
+ * int* param_2 = solutionShuffle(obj, retSize);
+ 
+ * solutionFree(obj);
+*/
+
+面试题【03.02】【栈的最小值】：https://leetcode-cn.com/problems/min-stack-lcci/
+typedef struct LinkNode{
+    int val;
+    struct LinkNode* next;
+}LinkNode;
+typedef struct LinkStack{
+    LinkNode* head;
+}LinkStack;
+
+bool IsEmpty(LinkStack*pt);
+void LinkStackInit(LinkStack* pt);
+void LinkStackPush(LinkStack* pt,int x);
+void LinkStackPop(LinkStack* pt);
+int LinkStackTop(LinkStack* pt);
+void LinkStackDestory(LinkStack* pt);
+
+bool IsEmpty(LinkStack* pt)
+{return pt->head == NULL;}
+void LinkStackInit(LinkStack* pt)
+{pt->head = NULL;}
+void LinkStackPush(LinkStack* pt, int x){
+    LinkNode* p = (LinkNode*)malloc(sizeof(LinkNode));
+    p->val = x;
+    p->next = pt->head;
+    pt->head = p;
+}
+
+void LinkStackPop(LinkStack* pt){
+    if(!IsEmpty(pt)){
+        LinkNode* p = pt->head;
+        pt->head = p->next;
+        free(p);        
+    }
+}
+
+void LinkStackDestory(LinkStack* pt){
+    while(pt->head){
+        LinkNode* p = pt->head;
+        pt->head = p->next;
+        free(p);
+    }
+}
+
+int LinkStackTop(LinkStack* pt){
+    return pt->head->val;
+}
+
+typedef struct {
+    LinkStack s;
+    LinkStack sm;
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() {
+    MinStack* obj = (MinStack*)malloc(sizeof(MinStack));
+    LinkStackInit(&(obj->s));
+    LinkStackInit(&(obj->sm));
+    return obj;
+}
+
+void minStackPush(MinStack* obj, int x) {
+    LinkStackPush(&(obj->s),x);
+    if(IsEmpty(&(obj->sm)) || LinkStackTop(&(obj->sm))>=x)
+        LinkStackPush(&(obj->sm),x);
+}
+
+void minStackPop(MinStack* obj) {
+    if(LinkStackTop(&(obj->s))==LinkStackTop(&(obj->sm)))
+        LinkStackPop(&(obj->sm));
+    LinkStackPop(&(obj->s));
+}
+
+int minStackTop(MinStack* obj) {
+    return LinkStackTop(&(obj->s));
+}
+
+int minStackGetMin(MinStack* obj) {
+    return LinkStackTop(&(obj->sm));
+}
+
+void minStackFree(MinStack* obj) {
+    LinkStackDestory(&(obj->s));
+    LinkStackDestory(&(obj->sm));
+    obj= NULL;
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, x);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
+
+LeetCode【13】【罗马数字转整数】：https://leetcode-cn.com/problems/roman-to-integer/
+int romanToInt(char * s){
+    int i = 0;
+    int res = 0;
+    while(s[i]){
+        switch(s[i]){
+            case 'I':
+                res+=1;
+                switch(s[++i]){
+                    case 'V':res+=3;break;
+                    case 'X':res+=8;break;
+                    default:i--;break;
+                }
+                break;
+            case 'V':res+=5;break;
+            case 'X':
+                res+= 10;
+                switch(s[++i]){
+                    case 'L':res+=30;break;
+                    case 'C':res+=80;break;
+                    default:i--;break;
+                }
+                break;
+            case 'L':res+=50;break;
+            case 'C':
+                res+=100;
+                switch(s[++i]){
+                    case 'D':res+=300;break;
+                    case 'M':res+=800;break;
+                    default:i--;break;
+                }
+                break;
+            case 'D':res+=500;break;
+            case 'M':res+=1000;break;
+            default:break;
+        }
+        i++;
+    }
+    return res;
+}
+
+LeetCode【98】【验证二叉搜索树】：https://leetcode-cn.com/problems/validate-binary-search-tree/
+int TreeNodeCount(struct TreeNode* root){
+    if(!root)
+        return 0;
+    return TreeNodeCount(root->left) + TreeNodeCount(root->right)+1;
+    
+}
+void MidOrder(struct TreeNode* root,int* nums,int* index){
+    if(!root)
+        return;
+    MidOrder(root->left,nums,index);
+    nums[(*index)++] = root->val;
+    MidOrder(root->right,nums,index);
+}
+bool isValidBST(struct TreeNode* root){
+    int cnt = TreeNodeCount(root);    
+    int* nums = (int*)malloc(sizeof(int)*cnt);
+    cnt = 0;
+    MidOrder(root,nums,&cnt);
+    for(int i = 1;i<cnt;i++)
+        if(nums[i]<=nums[i-1])
+            return false;
+    return true;
+}
