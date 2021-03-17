@@ -2642,3 +2642,38 @@ bool isValidBST(struct TreeNode* root){
             return false;
     return true;
 }
+
+面试题【16.15】【珠玑妙算】：https://leetcode-cn.com/problems/master-mind-lcci/
+int* masterMind(char* solution, char* guess, int* returnSize){
+    *returnSize = 2;
+    int* res = (int*)malloc(sizeof(int)*2);
+    res[0] = 0, res[1] = 0;
+    for(int i = 0; i < 4; i++){
+        if(solution[i] == guess[i])
+            res[0]++;
+    }
+    int cnt_R[2] = {0},cnt_Y[2] = {0},cnt_G[2] = {0},cnt_B[2] = {0};
+    for(int i = 0; i < 4; i++){
+        if(solution[i]=='R')
+            cnt_R[0]++;
+        else if(solution[i] == 'Y')
+            cnt_Y[0]++;
+        else if(solution[i] == 'G')
+            cnt_G[0]++;
+        else
+            cnt_B[0]++;
+    }
+    for(int i = 0; i < 4; i++){
+        if(guess[i]=='R')
+            cnt_R[1]++;
+        else if(guess[i] == 'Y')
+            cnt_Y[1]++;
+        else if(guess[i] == 'G')
+            cnt_G[1]++;
+        else
+            cnt_B[1]++;
+    }
+    res[1] = fmin(cnt_R[0],cnt_R[1])+fmin(cnt_Y[0],cnt_Y[1])+fmin(cnt_G[0],cnt_G[1])+fmin(cnt_B[0],cnt_B[1]);
+    res[1]-=res[0];
+    return res;
+}
