@@ -2677,3 +2677,51 @@ int* masterMind(char* solution, char* guess, int* returnSize){
     res[1]-=res[0];
     return res;
 }
+
+剑指offer【32-III】【从上到下打印二叉树】：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/
+int Height(struct TreeNode* root){
+        if(!root)
+            return 0;
+        int h_l = Height(root->left)+1;
+        int h_r = Height(root->right)+1;
+        return h_l>h_r?h_l:h_r;
+    }
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+        if(NULL == root){
+            *returnSize = 0;
+            return NULL;
+        }
+        int level = Height(root);
+        int** res = (int**)malloc(sizeof(int*)*level);
+        *returnColumnSizes = (int*)malloc(sizeof(int)*level);
+        *returnSize = level;
+        struct TreeNode *q1[1000],*q2[1000];
+        int q1_size = 0,q2_size = 0;
+        q1[0] = root,q1_size++;
+        int h = 0;
+        while(h<level){
+            res[h] = (int*)malloc(sizeof(int)*q1_size);
+            for(int i = 0;i<q1_size;i++)
+                res[h][i] = q1[i]->val;
+            (*returnColumnSizes)[h] = q1_size;
+            for(int i = 0;i<q1_size;i++){
+                if(q1[i]->left!=NULL)
+                    q2[q2_size++] = q1[i]->left;
+                if(q1[i]->right!=NULL)
+                    q2[q2_size++] = q1[i]->right;
+            }
+            memcpy(q1,q2,sizeof(struct TreeNode*)*q2_size);
+            q1_size = q2_size;
+            q2_size = 0;
+            h++;
+        } 
+        for(int i = 1;i<level;i+=2){
+            int top = (*returnColumnSizes)[i];
+            for(int j = 0;j<top/2;j++){
+                int tmp = res[i][j];
+                res[i][j] = res[i][top-j-1];
+                res[i][top-j-1] = tmp;
+            }
+        }
+        return res;
+}
