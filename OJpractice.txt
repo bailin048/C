@@ -2805,3 +2805,105 @@ int* levelOrder(struct TreeNode* root, int* returnSize){
     } 
     return res;
 }
+
+LeetCode【637】【二叉树的层平均值】：https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/
+int Height(struct TreeNode* root){
+    if(!root)
+        return 0;
+    int h_l = Height(root->left) + 1;
+    int h_r = Height(root->right) + 1;
+    return h_l>h_r?h_l:h_r;
+}
+double* averageOfLevels(struct TreeNode* root, int* returnSize){
+    int layer = Height(root);
+    double* res = (double*)malloc(sizeof(double)*layer);
+    *returnSize = layer;
+    struct TreeNode* q1[1000],*q2[1000];
+    int q1_size = 1,q2_size = 0;
+    q1[0] = root;
+    int h  = 0;
+    double sum = 0.0;
+    while(h<layer){
+        for(int i = 0;i<q1_size;i++)
+            sum += q1[i]->val;
+        res[h] = sum/q1_size;
+        for(int i = 0;i<q1_size;i++){
+            if(q1[i]->left)
+                q2[q2_size++] = q1[i]->left;
+            if(q1[i]->right)
+                q2[q2_size++] = q1[i]->right;
+        }
+        memcpy(q1,q2,sizeof(struct TreeNode*)*q2_size);
+        q1_size = q2_size,q2_size = 0;
+        h++;
+        sum = 0; 
+    }
+    return res;
+}
+
+LeetCode【513】【找树左下角的值】：https://leetcode-cn.com/problems/find-bottom-left-tree-value/
+int Height(struct TreeNode* root){
+    if(!root)
+        return 0;
+    int h_l = Height(root->left) + 1;
+    int h_r = Height(root->right) + 1;
+    return h_l>h_r?h_l:h_r;
+}
+int findBottomLeftValue(struct TreeNode* root){
+    int layer = Height(root);
+    struct TreeNode* q1[1000],*q2[1000];
+    int q1_size = 1,q2_size = 0;
+    q1[0] = root;
+    int h  = 0;
+    int res;
+    while(h<layer){
+        if(h == layer - 1){
+            res = q1[0]->val;
+            break;
+        }
+        for(int i = 0;i<q1_size;i++){
+            if(q1[i]->left)
+                q2[q2_size++] = q1[i]->left;
+            if(q1[i]->right)
+                q2[q2_size++] = q1[i]->right;
+        }
+        memcpy(q1,q2,sizeof(struct TreeNode*)*q2_size);
+        q1_size = q2_size,q2_size = 0;
+        h++;
+    }
+    return res;
+}
+
+LeetCode【1302】【层数最深叶子节点的和】：https://leetcode-cn.com/problems/deepest-leaves-sum/
+int Height(struct TreeNode* root){
+    if(!root)
+        return 0;
+    int h_l = Height(root->left) + 1;
+    int h_r = Height(root->right) + 1;
+    return h_l>h_r?h_l:h_r;
+}
+int deepestLeavesSum(struct TreeNode* root){
+    int layer = Height(root);
+    struct TreeNode* q1[10000],*q2[10000];
+    int q1_size = 1,q2_size = 0;
+    q1[0] = root;
+    int h  = 0;
+    int sum = 0;
+    while(h<layer){
+        if(h == layer - 1){
+            for(int i = 0;i<q1_size;i++)
+                sum+=q1[i]->val;
+            break;
+        }
+        for(int i = 0;i<q1_size;i++){
+            if(q1[i]->left)
+                q2[q2_size++] = q1[i]->left;
+            if(q1[i]->right)
+                q2[q2_size++] = q1[i]->right;
+        }
+        memcpy(q1,q2,sizeof(struct TreeNode*)*q2_size);
+        q1_size = q2_size,q2_size = 0;
+        h++;
+    }
+    return sum;
+}
