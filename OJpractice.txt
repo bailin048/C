@@ -2907,3 +2907,58 @@ int deepestLeavesSum(struct TreeNode* root){
     }
     return sum;
 }
+
+LeetCode【501】【二叉树中的众数】：https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/
+int* res;
+int resSize;
+int base, count, maxCount;
+void update(int num){
+    if(num == base)
+        ++count;
+    else
+        count = 1,base = num;
+    if(count == maxCount)
+        res[resSize++] = num;
+    if (count > maxCount) {
+        maxCount = count;
+        resSize = 0;
+        res[resSize++] = base;
+    }
+}  
+void dfs(struct TreeNode* root){
+    if(!root)
+        return;
+    dfs(root->left);
+    update(root->val);
+    dfs(root->right);
+} 
+int* findMode(struct TreeNode* root, int* returnSize){
+    base = count = maxCount = 0;
+    res = malloc(sizeof(int) * 4001);
+    resSize = 0;
+    dfs(root);
+    *returnSize = resSize;
+    return res;
+}
+
+LeetCode【530】【二叉搜索书的最小绝对差】：https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/
+void dfs(struct TreeNode* root,int* res,int* index){
+    if(!root)
+        return;
+    dfs(root->left,res,index);
+    res[*index] = root->val;
+    (*index)++;
+    dfs(root->right,res,index);
+}
+int getMinimumDifference(struct TreeNode* root){
+    int* res = (int*)malloc(sizeof(int)*10000);
+    int index = 0;
+    dfs(root,res,&index);
+    int Min = INT_MAX;
+    for(int i = 1;i<index;i++){
+        int tmp = res[i] - res[i-1];
+        if(tmp<Min)
+            Min = tmp;
+    }
+    return Min;
+}
