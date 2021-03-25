@@ -2962,3 +2962,18 @@ int getMinimumDifference(struct TreeNode* root){
     }
     return Min;
 }
+
+LeetCode【832】【翻转图像】：https://leetcode-cn.com/problems/flipping-an-image/
+int** flipAndInvertImage(int** image, int imageSize, int* imageColSize, int* returnSize, int** returnColumnSizes){
+    *returnSize = imageSize;
+    *returnColumnSizes = imageColSize;
+    int top = imageSize%2?imageSize/2 + 1:imageSize/2;
+    for(int i = 0;i<imageSize;i++){
+        for(int j = 0;j < top;j++){
+            int tmp = image[i][j];
+            image[i][j] = 1^image[i][imageSize-1-j];
+            image[i][imageSize-1-j] = 1^tmp;
+        }
+    }
+    return image;
+}
