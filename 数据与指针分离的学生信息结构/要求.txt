@@ -1,0 +1,62 @@
+使用链表保存一组学生数据，输入学生的人数，然后输入学生的姓名与年龄，输入完毕后按照学生的年龄从大到小排序,年龄相同泽名字长的在前，
+长度相同可以并列，从头到尾输出链表内容; 将链表反转后再次从头到尾输入链表内容;
+strcut node
+{
+    struct node *next;
+};
+
+struct list
+{
+    struct node *head;
+    struct node *tail;
+    int list_cnt;
+};
+
+struct student_info
+{
+    char *name;
+    int age;
+};
+
+学生信息输出方式：
+name      age
+xxx       xxx
+xxx       xxx
+.
+.
+.
+
+输出形式：name
+
+例如：
+8
+xiaohong,18
+xiaoming,20
+xiaohuang,17
+xiaowang,16
+xiangli,23
+xiaochen,22
+xiaohei,21
+xiaobai,18
+
+output list:
+xiangli,23
+xiaochen,22
+xiaohei,21
+xiaoming,20
+xiaohong,18
+xiaobai,18
+xiaohuang,17
+xiaowang,16
+
+output reverse list:
+xiaowang,16
+xiaohuang,17
+xiaobai,18
+xiaohong,18
+xiaoming,20
+xiaohei,21
+xiaochen,22
+xiangli,23
+
+【数据和指针分开】，用希尔排序或者快排
